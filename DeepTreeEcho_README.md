@@ -70,6 +70,19 @@ This sequence serves as the **ontogenetic generator** for the entire system, pro
 - **Complexity measure** for evolutionary fitness
 - **Enumeration basis** for elementary differentials
 - **Growth pattern** for self-organization
+- **PARAMETER DERIVATION**: All system parameters (reservoir size, membrane count, growth rates) **MUST** be derived from A000081 to ensure mathematical consistency
+
+### Parameter Alignment Philosophy
+
+**CRITICAL PRINCIPLE**: No arbitrary parameter values are permitted. Every parameter must be justified by its relationship to the A000081 sequence or rooted tree topology.
+
+**Derivation Rules**:
+- `reservoir_size = Σ A000081[1:n]` (cumulative tree count)
+- `num_membranes = A000081[k]` (tree count at order k)
+- `growth_rate = A000081[n+1] / A000081[n]` (natural growth ratio)
+- `mutation_rate = 1 / A000081[n]` (inverse complexity)
+
+See [A000081 Parameter Alignment Guide](docs/A000081_PARAMETER_ALIGNMENT.md) for complete documentation.
 
 ### Unified Dynamics Equation
 
@@ -208,24 +221,62 @@ history = self_evolve!(state, generator, 50)
 
 ## Unified System
 
-### Creating the System
+### A000081 Parameter Alignment (IMPORTANT!)
+
+**All parameters must be derived from OEIS A000081 to ensure mathematical consistency.**
+
+The recommended approach is to use **automatic parameter derivation**:
 
 ```julia
 using DeepTreeEcho
 
-# Create integrated system
+# RECOMMENDED: Auto-derive all parameters from A000081
+system = DeepTreeEchoSystem(base_order=5)
+
+# This automatically derives:
+# - reservoir_size = 17 (cumulative trees: 1+1+2+4+9)
+# - max_tree_order = 8
+# - num_membranes = 2 (A000081[3])
+# - growth_rate ≈ 2.22 (20/9, natural growth ratio)
+# - mutation_rate ≈ 0.11 (1/9, inversely proportional to complexity)
+```
+
+### Creating the System (Legacy/Explicit)
+
+For explicit parameter control (with automatic validation):
+
+```julia
+using DeepTreeEcho
+
+# Option 1: Use parameter set derivation
+params = get_parameter_set(5, membrane_order=4)
 system = DeepTreeEchoSystem(
-    reservoir_size = 100,
-    max_tree_order = 8,
-    num_membranes = 3,
+    reservoir_size = params.reservoir_size,   # 17 (A000081-aligned)
+    max_tree_order = params.max_tree_order,   # 8
+    num_membranes = params.num_membranes,     # 4 (A000081[4])
     symplectic = true,
-    growth_rate = 0.1,
+    growth_rate = params.growth_rate,         # ≈2.22
+    mutation_rate = params.mutation_rate      # ≈0.11
+)
+
+# Explain parameter derivation
+explain_parameters(params)
+
+# Option 2: Manual (will show warnings if not A000081-aligned)
+system = DeepTreeEchoSystem(
+    reservoir_size = 100,    # ⚠ Warning: not A000081-aligned
+    max_tree_order = 8,
+    num_membranes = 3,       # ⚠ Warning: not in A000081
+    growth_rate = 0.1,       # ⚠ Warning: arbitrary value
     mutation_rate = 0.05
 )
 
-# Initialize with A000081 seed trees
-initialize!(system, seed_trees=20)
+# Initialize with A000081-derived seed count
+seed_count = A000081Parameters.A000081_SEQUENCE[4]  # 4 trees
+initialize!(system, seed_trees=seed_count)
 ```
+
+**See [A000081 Parameter Alignment Guide](docs/A000081_PARAMETER_ALIGNMENT.md) for detailed explanation.**
 
 ### Evolution
 
@@ -267,15 +318,22 @@ using Random
 
 Random.seed!(42)
 
-# 1. Create system
+# 1. Create system with A000081-aligned parameters
+params = get_parameter_set(5, membrane_order=4)
 system = DeepTreeEchoSystem(
-    reservoir_size = 50,
-    max_tree_order = 8,
-    num_membranes = 3
+    reservoir_size = params.reservoir_size,   # 17
+    max_tree_order = params.max_tree_order,   # 8
+    num_membranes = params.num_membranes,     # 4
+    growth_rate = params.growth_rate,         # ≈2.22
+    mutation_rate = params.mutation_rate      # ≈0.11
 )
 
-# 2. Initialize
-initialize!(system, seed_trees=15)
+# Or simply use auto-derivation:
+# system = DeepTreeEchoSystem(base_order=5)
+
+# 2. Initialize with A000081-derived seed count
+seed_count = A000081Parameters.A000081_SEQUENCE[4]  # 4 trees
+initialize!(system, seed_trees=seed_count)
 
 # 3. Evolve
 evolve!(system, 30, verbose=true)
