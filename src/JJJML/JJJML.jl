@@ -37,8 +37,11 @@ include("Activations.jl")
 include("Attention.jl")
 include("ReservoirComputing.jl")
 include("BSeries.jl")
+include("BSeriesMethods.jl")
 include("InferenceEngine.jl")
 include("A000081Parameters.jl")
+include("JAXBridge.jl")
+include("Quantization.jl")
 include("UnifiedAPI.jl")
 
 end # module JJJML
