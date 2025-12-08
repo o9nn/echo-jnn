@@ -4,10 +4,10 @@
 # To make this agent available, merge this file into the default repository branch.
 # For format details, see: https://gh.io/customagents/config
 
-name: jl
-description: julia
+name: jjjml
+description: julia-jax-jlang-machine-learning
 ---
 
-# My Agent
+# JJJML (Julia+JAX+Jlang+ML)
 
 Describe what your agent does here...
