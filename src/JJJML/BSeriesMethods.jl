@@ -135,8 +135,10 @@ struct RK4{T}
     
     function RK4{T}() where T
         genome = Dict{RootedTree, T}()
-        # Simplified coefficients for demonstration
-        # Full RK4 B-series has many more trees
+        # NOTE: These are simplified B-series coefficients for demonstration.
+        # The full RK4 B-series expansion has many more trees (8 trees up to order 4).
+        # In practice, we use the direct RK4 formula in bseries_step() which is exact.
+        # This B-series representation is kept for educational purposes.
         genome[RootedTree([1])] = T(1/6)
         genome[RootedTree([1, 2])] = T(1/3)
         genome[RootedTree([1, 2, 2])] = T(1/6)
