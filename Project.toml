@@ -5,6 +5,7 @@ authors = ["Chris Rackauckas and Julia Computing"]
 
 [deps]
 Adapt = "79e6a3ab-5dfb-504d-930d-738a2a938a0e"
+BSeries = "ebb8d67c-85b4-416c-b05f-5f409e808f32"
 ChainRulesCore = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
 Combinatorics = "861a8166-3701-5b0c-9a16-15d98fcdc6aa"
 Compat = "34da2185-b29b-5c13-b0c7-acf172513d20"
@@ -28,6 +29,7 @@ Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
 WeightInitializers = "d49dbf32-c5c2-4618-8acc-27bb2598ef2d"
 
 [sources]
+BSeries = {path = "/home/runner/work/cogpilot.jl/cogpilot.jl/BSeries.jl"}
 ReservoirComputing = {path = "/home/runner/work/cogpilot.jl/cogpilot.jl/ReservoirComputing.jl"}
 RootedTrees = {path = "/home/runner/work/cogpilot.jl/cogpilot.jl/RootedTrees.jl"}
 
