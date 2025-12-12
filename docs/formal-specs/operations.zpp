@@ -120,7 +120,7 @@ schema ProcessReservoirInput
     dim(input?) = reservoir.config.input_dim
     
     // Update reservoir state
-    // x[t+1] = tanh(W_in · u[t] + W_res · x[t])
+    // x[t+1] = tanh(W_in × u[t] + W_res × x[t])
     reservoir'.state_vector = 
       tanh(reservoir.weights.W_in × input? + 
            reservoir.weights.W_res × reservoir.state_vector)

@@ -207,7 +207,9 @@ schema SystemConfiguration
   symplectic : 𝔹
   
   where
-    // Base order determines other parameters
+    // Base order determines reservoir size (A000081-aligned)
+    // Note: This is the recommended derivation; alternative alignments
+    // are acceptable as long as they maintain A000081 relationship
     reservoir_size = Σ{i : 1..base_order • A000081(i)}
     
     // Max tree order greater than base

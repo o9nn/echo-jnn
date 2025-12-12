@@ -33,7 +33,7 @@ A000081 : ℕ → ℕ
     ...
   
   invariant: ∀n ∈ ℕ, n ≥ 1 ⇒ A000081(n) > 0
-  invariant: ∀n ∈ ℕ, n ≥ 2 ⇒ A000081(n) > A000081(n-1)  // Monotonic growth
+  invariant: ∀n ∈ ℕ, n ≥ 2 ⇒ A000081(n) > A000081(n-1)  // Strictly monotonically increasing
 
 ──[ Node Identifier Type ]──────────────────────────────────────────────────────
 
