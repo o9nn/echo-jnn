@@ -631,14 +631,14 @@ Julia's strengths enable this paradigm:
 
 ## Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-Key areas for contribution:
+We welcome contributions! Key areas for contribution:
 - New domain-specific kernel generators
 - Additional SciML package integrations
 - Performance optimizations
 - Documentation improvements
 - Example applications
+
+Please follow the [SciML ColPrac guidelines](https://github.com/SciML/ColPrac) for collaborative practices and the [SciML Style Guide](https://github.com/SciML/SciMLStyle) for code style.
 
 ## License
 
