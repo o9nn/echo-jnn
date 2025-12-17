@@ -29,13 +29,13 @@ Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
 WeightInitializers = "d49dbf32-c5c2-4618-8acc-27bb2598ef2d"
 
 [sources.BSeries]
-path = "/home/runner/work/cogpilot.jl/cogpilot.jl/BSeries.jl"
+path = "BSeries.jl"
 
 [sources.ReservoirComputing]
-path = "/home/runner/work/cogpilot.jl/cogpilot.jl/ReservoirComputing.jl"
+path = "ReservoirComputing.jl"
 
 [sources.RootedTrees]
-path = "/home/runner/work/cogpilot.jl/cogpilot.jl/RootedTrees.jl"
+path = "RootedTrees.jl"
 
 [compat]
 ADTypes = "1"
