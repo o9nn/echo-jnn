@@ -1,0 +1,88 @@
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#BB2528', 'primaryTextColor': '#fff', 'primaryBorderColor': '#7C0000', 'lineColor': '#F8B229', 'secondaryColor': '#006100', 'tertiaryColor': '#fff'}}}%%
+flowchart TB
+    subgraph CORE["🧠 ECHO-JNN CORE (CogPilot.jl)"]
+        A000081["OEIS A000081<br/>Ontogenetic Generator"]
+        BSERIES["B-Series<br/>Computational Ridges"]
+        ESN["Echo State<br/>Reservoirs"]
+        PSYS["P-System<br/>Membrane Computing"]
+        JSURFACE["J-Surface<br/>Reactor Core"]
+    end
+
+    subgraph DELTECHO["🔮 DELTECHO (Plan9Cog)"]
+        ATOMSPACE["AtomSpace<br/>Hypergraph Memory"]
+        PLN["PLN<br/>Inference Engine"]
+        ECAN["ECAN<br/>Attention Network"]
+        COGFS["CogFS<br/>9P Protocol"]
+    end
+
+    subgraph NANOCYC["⚡ NANOCYC (CogPrime)"]
+        SILICONSAGE["SiliconSage<br/>Unified Cognition"]
+        HYPERON["Hyperon<br/>Integration"]
+        RELEVANCE["Relevance<br/>Realization"]
+        METACOG["Meta-Learning<br/>Self-Improvement"]
+    end
+
+    subgraph NNOI["💰 NNOI (ElizaOsCog)"]
+        ELIZA["ElizaOS<br/>Multi-Agent Framework"]
+        FINANCOG["Financial<br/>AtomSpace"]
+        DYNMESH["Dynamic Mesh<br/>Framework"]
+        MICROSERV["Cognitive<br/>Microservices"]
+    end
+
+    subgraph AIRI["🎭 AIRI (Virtual Companion)"]
+        STAGECORE["Stage Core<br/>Character Engine"]
+        MEMORY["Memory Alaya<br/>Long-term Storage"]
+        PLUGINS["Plugin<br/>Architecture"]
+        EMBODIMENT["Embodiment<br/>Manager"]
+    end
+
+    subgraph TOGAI["🌐 TOGAI (Plan9 Full)"]
+        KERNEL["Cognitive<br/>Kernel Extensions"]
+        REACTOR["Cognitive Fusion<br/>Reactor"]
+        MACHSPACE["MachSpace<br/>Distributed Memory"]
+    end
+
+    subgraph TFML["📊 TFML (EchoGNN)"]
+        GNN["Graph Neural<br/>Networks"]
+        EXPLAIN["Explainability<br/>Engine"]
+        TEMPORAL["Temporal<br/>Analysis"]
+    end
+
+    subgraph NNAIML["🤖 NN.AIML"]
+        AIML["AIML<br/>Pattern Matching"]
+        CHATBOT["Conversational<br/>Interface"]
+    end
+
+    %% Core Integration Flows
+    A000081 --> BSERIES
+    BSERIES --> ESN
+    ESN --> PSYS
+    PSYS --> JSURFACE
+
+    %% Cross-Repository Integration Points
+    ATOMSPACE <--> ESN
+    PLN <--> BSERIES
+    ECAN <--> JSURFACE
+    
+    SILICONSAGE <--> PSYS
+    RELEVANCE <--> ECAN
+    METACOG <--> A000081
+    
+    ELIZA <--> SILICONSAGE
+    FINANCOG <--> ATOMSPACE
+    DYNMESH <--> MACHSPACE
+    
+    STAGECORE <--> ELIZA
+    MEMORY <--> ATOMSPACE
+    PLUGINS <--> MICROSERV
+    EMBODIMENT <--> COGFS
+    
+    KERNEL <--> PSYS
+    REACTOR <--> JSURFACE
+    
+    GNN <--> ESN
+    EXPLAIN <--> PLN
+    TEMPORAL <--> BSERIES
+    
+    AIML <--> CHATBOT
+    CHATBOT <--> STAGECORE

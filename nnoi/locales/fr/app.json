@@ -1,0 +1,223 @@
+{
+  "lang": "Français",
+  "sponsor": "Parrainer Noi",
+  "menu": {
+    "name": "Menu",
+    "about": "À propos de Noi",
+    "hide": "Masquer Noi",
+    "hideOthers": "Masquer les autres",
+    "quit": "Quitter Noi",
+    "unhide": "Afficher tout",
+    "checkUpdates": "Vérifier les mises à jour…",
+
+    "settings": "Paramètres",
+    "languages": "Langues",
+    "theme": {
+      "name": "Thème",
+      "light": "Clair",
+      "dark": "Sombre",
+      "system": "Système",
+      "monochromatic": "Monochromatique",
+      "frostedTexture": "Texture givrée"
+    },
+    "stayOnTop": "Rester au-dessus",
+    "lockSidebar": "Verrouiller la barre latérale",
+    "showSidebar": "Afficher la barre latérale",
+    "hideSidebar": "Masquer la barre latérale",
+    "noiCacheMode": "Mode cache Noi",
+    "devTools": "Outils de développement",
+    "xQuit": "Cliquer sur [X] pour quitter",
+    "systemTray": "Zone de notification",
+
+    "edit": "Édition",
+    "undo": "Annuler",
+    "redo": "Rétablir",
+    "pasteAndMatchStyle": "Coller et adapter le style",
+    "delete": "Supprimer",
+
+    "view": "Affichage",
+    "refresh": "Rafraîchir la page",
+    "goBack": "Retour",
+    "goForward": "Avancer",
+    "resetZoom": "Taille réelle",
+    "zoomIn": "Zoomer",
+    "zoomOut": "Dézoomer",
+    "fullScreen": "Plein écran",
+
+    "help": "Aide",
+    "log": "Journal de Noi",
+    "gettingStarted": "Commencer",
+    "issues": "Problèmes GitHub",
+    "shareIdeas": "Partager des idées et des retours",
+
+    "defaultWebBrowser": "Navigateur web par défaut",
+    "learnSpelling": "Apprendre l'orthographe",
+    "lookUpSelection": "Rechercher “{selection}”",
+    "searchWithGoogle": "Rechercher avec Google",
+    "searchWithBing": "Rechercher avec Bing",
+    "cut": "Couper",
+    "copy": "Copier",
+    "paste": "Coller",
+    "selectAll": "Tout sélectionner",
+    "saveImage": "Enregistrer l'image",
+    "saveImageAs": "Enregistrer l'image sous…",
+    "saveVideo": "Enregistrer la vidéo",
+    "saveVideoAs": "Enregistrer la vidéo sous…",
+    "copyLink": "Copier le lien",
+    "saveLinkAs": "Enregistrer le lien sous…",
+    "copyImage": "Copier l'image",
+    "copyImageAddress": "Copier l'adresse de l'image",
+    "copyVideoAddress": "Copier l'adresse de la vidéo",
+    "inspect": "Inspecter l'élément",
+    "services": "Services",
+    "reload": "Recharger",
+    "rename": "Renommer",
+    "user": "Utilisateur",
+    "setSystemTray": "Définir comme zone de notification",
+    "clearCache": "Effacer les données du cache",
+    "find": {
+      "name": "Trouver",
+      "findInPage": "Trouver dans la page…",
+      "findNext": "Trouver suivant",
+      "findPrevious": "Trouver précédent",
+      "jumpToSelection": "Aller à la sélection"
+    }
+  },
+  "form": {
+    "name": "Nom",
+    "url": "URL",
+    "isolatedCookieStorage": "Stockage isolé des cookies",
+    "invalidURL": "Veuillez entrer une URL valide.",
+    "nameNotEmpty": "Le nom ne peut pas être vide."
+  },
+  "sidebar": {
+    "warn": {
+      "urlDelete": "L'URL actuelle est en cours d'utilisation.",
+      "dirDelete": "Le répertoire actuel est en cours d'utilisation.",
+      "trayDelete": "La zone de notification utilise l'URL actuelle, elle ne peut pas être supprimée."
+    },
+    "tip": {
+      "delete": "Impossible de récupérer après suppression, êtes-vous sûr de vouloir supprimer ?",
+      "syncOverwrite": "La synchronisation écrasera toutes les données sauf les données personnalisées. Voulez-vous continuer ?",
+      "syncReset": "Vous êtes actuellement sur la dernière version. La synchronisation réinitialisera toutes les données sauf les données personnalisées. Voulez-vous continuer ?",
+      "syncOk": "Synchronisation réussie",
+      "syncResetOk": "Réinitialisation réussie"
+    }
+  },
+  "network": {
+    "error": {
+      "try": "Essayer :",
+      "title": "Ce site n’est pas accessible",
+      "longRespond": "a mis trop de temps à répondre.",
+      "checkConnection": "Vérification de la connexion",
+      "checkProxy": "Vérification du proxy et du pare-feu"
+    }
+  },
+  "settings": {
+    "menu": {
+      "general": {
+        "name": "Général",
+        "syncBookmarks": "Synchroniser les marque-pages",
+        "proxy": "Proxy",
+        "proxyRules": "Règles",
+        "proxyBypassRules": "Règles de contournement",
+        "promptLogLimit": "Limite du journal des invites",
+        "promptLogArchiveLimit": "Limite d'archive du journal des invites",
+        "promptFavoritesLimit": "Limite des favoris",
+        "promptFavoritesArchiveLimit": "Limite d'archive des favoris"
+      },
+      "keyboardShortcuts": {
+        "name": "Raccourcis clavier",
+        "recording": "Enregistrement…",
+        "globalShortcut": "Raccourci global",
+        "trayShortcut": "Raccourci de la zone de notification"
+      },
+      "extensions": "Extensions",
+      "prompts": {
+        "name": "Invites",
+        "userPrompts": "Invites utilisateur",
+        "promptTags": "Étiquettes des invites",
+        "customSync": "Synchronisation personnalisée"
+      }
+    },
+    "confirm": {
+      "delete": "Êtes-vous sûr de vouloir supprimer cet enregistrement ?",
+      "batchEnable": "Êtes-vous sûr de vouloir activer ces invites ?",
+      "batchDelete": "Êtes-vous sûr de vouloir supprimer ces invites ?",
+      "batchDisable": "Êtes-vous sûr de vouloir désactiver ces invites ?",
+      "batchUse": "Êtes-vous sûr de vouloir utiliser ces invites ?",
+      "batchTagsAdd": "Êtes-vous sûr de vouloir ajouter ces étiquettes ?",
+      "batchTagsDelete": "Êtes-vous sûr de vouloir supprimer ces étiquettes ?"
+    },
+    "message": {
+      "added": "Ajouté",
+      "synced": "Synchronisé",
+      "invalidData": "Données invalides",
+      "missingActAndPrompt": "Champs manquants : 'act', 'prompt'. Essayez d'utiliser 'Alias' pour renommer.",
+      "missingManifest": "Le fichier manifest.json est manquant ou invalide.",
+      "checkExtension": "Veuillez revérifier le répertoire de l'extension :",
+      "existExtension": "L'extension existe déjà."
+    },
+    "tip": {
+      "proxyRules": "Règles indiquant quels proxies utiliser.",
+      "proxyBypassRules": "Règles indiquant quelles URL doivent contourner les paramètres du proxy.",
+      "shortcutRule": "Règle de raccourci",
+      "modifierKeys": "Touches modificateurs",
+      "regularKeys": "Touches régulières",
+      "noiExtension": "Notez que Noi ne prend pas en charge la gamme complète des API d'extensions Chrome. Voir les API d'extensions prises en charge pour plus de détails sur ce qui est pris en charge.",
+      "noiCacheMode": "Met en cache les états des pages Web pour un réaccès rapide, similaire aux onglets du navigateur. L'enregistrement continu de l'état augmente l'utilisation de la mémoire, surtout lors de l'accès fréquent à différents liens de la barre latérale. Pour atténuer l'impact sur la mémoire, surtout en cas de latence du système, envisagez de désactiver ou de redémarrer le cache après plusieurs changements.",
+      "promptLogLimit": "Nombre maximum de invites à conserver dans le journal (10-1000), avec le paramètre par défaut fixé à 300.",
+      "promptLogArchiveLimit_1": "Nombre maximum de invites pouvant être stockées dans un seul fichier d'archive (1000-10000), avec le paramètre par défaut fixé à 1000.",
+      "promptLogArchiveLimit_2": "1. Fichier actuellement en cours d'archivage : {{file}}.archiving.json",
+      "promptLogArchiveLimit_3": "2. Convention de nommage pour les fichiers d'archive terminés : {{file}}_AAAA.MM.JJ.HH.mm.ss_AAAA.MM.JJ.HH.mm.ss.json, où AAAA.MM.JJ.HH.mm.ss représente les heures de début et de fin respectivement. Par exemple : {{file}}_2024.01.01.12.00.00_2024.08.08.10.10.00.json"
+    },
+    "table": {
+      "name": "Nom",
+      "extension": "Extension",
+      "description": "Description",
+      "version": "Version",
+      "tag": "Étiquette",
+      "color": "Couleur",
+      "lastUpdate": "Dernière mise à jour",
+      "usageCount": "Nombre d'utilisations"
+    }
+  },
+  "action": {
+    "name": "Action",
+    "add": "Ajouter",
+    "cancel": "Annuler",
+    "create": "Créer",
+    "confirm": "Confirmer",
+    "detail": "Détail",
+    "delete": "Supprimer",
+    "disable": "Désactiver",
+    "edit": "Éditer",
+    "enable": "Activer",
+    "export": "Exporter",
+    "refresh": "Rafraîchir",
+    "reset": "Réinitialiser",
+    "sync": "Synchroniser",
+    "save": "Sauvegarder",
+    "search": "Rechercher",
+    "select": "Sélectionner",
+    "use": "Utiliser",
+    "copied": "Copié",
+    "batchAdd": "Ajout en lot",
+    "batchDisable": "Désactiver en lot",
+    "batchEnable": "Activer en lot",
+    "batchDelete": "Supprimer en lot",
+    "batchUse": "Utiliser en lot"
+  },
+  "prompt": {
+    "promptFavorite": "Favoris des invites",
+    "promptLog": "Journal des invites",
+    "promptSend": "Envoyer l'invite",
+    "newChat": "Nouveau chat",
+    "sendMessage": "Envoyer le message",
+    "resetPanel": "Réinitialiser le panneau",
+    "promptCmd": "Commande d'invite",
+    "sizeSmall": "Petit",
+    "sizeMedium": "Moyen",
+    "sizeLarge": "Grand"
+  }
+}

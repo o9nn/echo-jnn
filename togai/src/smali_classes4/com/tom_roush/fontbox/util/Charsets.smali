@@ -1,0 +1,77 @@
+.class public final Lcom/tom_roush/fontbox/util/Charsets;
+.super Ljava/lang/Object;
+.source "Charsets.java"
+
+
+# static fields
+.field public static final ISO_10646:Ljava/nio/charset/Charset;
+
+.field public static final ISO_8859_1:Ljava/nio/charset/Charset;
+
+.field public static final US_ASCII:Ljava/nio/charset/Charset;
+
+.field public static final UTF_16:Ljava/nio/charset/Charset;
+
+.field public static final UTF_16BE:Ljava/nio/charset/Charset;
+
+
+# direct methods
+.method static constructor <clinit>()V
+    .locals 1
+
+    const-string v0, "ISO-8859-1"
+
+    .line 32
+    invoke-static {v0}, Ljava/nio/charset/Charset;->forName(Ljava/lang/String;)Ljava/nio/charset/Charset;
+
+    move-result-object v0
+
+    sput-object v0, Lcom/tom_roush/fontbox/util/Charsets;->ISO_8859_1:Ljava/nio/charset/Charset;
+
+    const-string v0, "UTF-16"
+
+    .line 36
+    invoke-static {v0}, Ljava/nio/charset/Charset;->forName(Ljava/lang/String;)Ljava/nio/charset/Charset;
+
+    move-result-object v0
+
+    sput-object v0, Lcom/tom_roush/fontbox/util/Charsets;->UTF_16:Ljava/nio/charset/Charset;
+
+    const-string v0, "UTF-16BE"
+
+    .line 40
+    invoke-static {v0}, Ljava/nio/charset/Charset;->forName(Ljava/lang/String;)Ljava/nio/charset/Charset;
+
+    move-result-object v0
+
+    sput-object v0, Lcom/tom_roush/fontbox/util/Charsets;->UTF_16BE:Ljava/nio/charset/Charset;
+
+    const-string v0, "US-ASCII"
+
+    .line 44
+    invoke-static {v0}, Ljava/nio/charset/Charset;->forName(Ljava/lang/String;)Ljava/nio/charset/Charset;
+
+    move-result-object v0
+
+    sput-object v0, Lcom/tom_roush/fontbox/util/Charsets;->US_ASCII:Ljava/nio/charset/Charset;
+
+    const-string v0, "ISO-10646-UCS-2"
+
+    .line 48
+    invoke-static {v0}, Ljava/nio/charset/Charset;->forName(Ljava/lang/String;)Ljava/nio/charset/Charset;
+
+    move-result-object v0
+
+    sput-object v0, Lcom/tom_roush/fontbox/util/Charsets;->ISO_10646:Ljava/nio/charset/Charset;
+
+    return-void
+.end method
+
+.method private constructor <init>()V
+    .locals 0
+
+    .line 27
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    return-void
+.end method

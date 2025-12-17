@@ -1,0 +1,367 @@
+.class final Lio/requery/android/database/sqlite/SQLiteConnection$Operation;
+.super Ljava/lang/Object;
+.source "SQLiteConnection.java"
+
+
+# annotations
+.annotation system Ldalvik/annotation/EnclosingClass;
+    value = Lio/requery/android/database/sqlite/SQLiteConnection;
+.end annotation
+
+.annotation system Ldalvik/annotation/InnerClass;
+    accessFlags = 0x1a
+    name = "Operation"
+.end annotation
+
+
+# static fields
+.field private static final sDateFormat:Ljava/text/SimpleDateFormat;
+
+
+# instance fields
+.field public mBindArgs:Ljava/util/ArrayList;
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "Ljava/util/ArrayList<",
+            "Ljava/lang/Object;",
+            ">;"
+        }
+    .end annotation
+.end field
+
+.field public mCookie:I
+
+.field public mEndTime:J
+
+.field public mException:Ljava/lang/Exception;
+
+.field public mFinished:Z
+
+.field public mKind:Ljava/lang/String;
+
+.field public mSql:Ljava/lang/String;
+
+.field public mStartTime:J
+
+
+# direct methods
+.method static bridge synthetic -$$Nest$mgetFormattedStartTime(Lio/requery/android/database/sqlite/SQLiteConnection$Operation;)Ljava/lang/String;
+    .locals 0
+
+    invoke-direct {p0}, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->getFormattedStartTime()Ljava/lang/String;
+
+    move-result-object p0
+
+    return-object p0
+.end method
+
+.method static constructor <clinit>()V
+    .locals 2
+
+    .line 1525
+    new-instance v0, Ljava/text/SimpleDateFormat;
+
+    const-string v1, "yyyy-MM-dd HH:mm:ss.SSS"
+
+    invoke-direct {v0, v1}, Ljava/text/SimpleDateFormat;-><init>(Ljava/lang/String;)V
+
+    sput-object v0, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->sDateFormat:Ljava/text/SimpleDateFormat;
+
+    return-void
+.end method
+
+.method private constructor <init>()V
+    .locals 0
+
+    .line 1523
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    return-void
+.end method
+
+.method synthetic constructor <init>(Lio/requery/android/database/sqlite/SQLiteConnection$Operation-IA;)V
+    .locals 0
+
+    invoke-direct {p0}, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;-><init>()V
+
+    return-void
+.end method
+
+.method private getFormattedStartTime()Ljava/lang/String;
+    .locals 4
+
+    sget-object v0, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->sDateFormat:Ljava/text/SimpleDateFormat;
+
+    .line 1582
+    new-instance v1, Ljava/util/Date;
+
+    iget-wide v2, p0, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->mStartTime:J
+
+    invoke-direct {v1, v2, v3}, Ljava/util/Date;-><init>(J)V
+
+    invoke-virtual {v0, v1}, Ljava/text/SimpleDateFormat;->format(Ljava/util/Date;)Ljava/lang/String;
+
+    move-result-object v0
+
+    return-object v0
+.end method
+
+.method private getStatus()Ljava/lang/String;
+    .locals 1
+
+    iget-boolean v0, p0, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->mFinished:Z
+
+    if-nez v0, :cond_0
+
+    const-string v0, "running"
+
+    return-object v0
+
+    :cond_0
+    iget-object v0, p0, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->mException:Ljava/lang/Exception;
+
+    if-eqz v0, :cond_1
+
+    const-string v0, "failed"
+
+    goto :goto_0
+
+    :cond_1
+    const-string v0, "succeeded"
+
+    :goto_0
+    return-object v0
+.end method
+
+
+# virtual methods
+.method public describe(Ljava/lang/StringBuilder;Z)V
+    .locals 5
+
+    iget-object v0, p0, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->mKind:Ljava/lang/String;
+
+    .line 1538
+    invoke-virtual {p1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    iget-boolean v0, p0, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->mFinished:Z
+
+    if-eqz v0, :cond_0
+
+    const-string v0, " took "
+
+    .line 1540
+    invoke-virtual {p1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    iget-wide v1, p0, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->mEndTime:J
+
+    iget-wide v3, p0, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->mStartTime:J
+
+    sub-long/2addr v1, v3
+
+    invoke-virtual {v0, v1, v2}, Ljava/lang/StringBuilder;->append(J)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v1, "ms"
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    goto :goto_0
+
+    :cond_0
+    const-string v0, " started "
+
+    .line 1542
+    invoke-virtual {p1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
+
+    move-result-wide v1
+
+    iget-wide v3, p0, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->mStartTime:J
+
+    sub-long/2addr v1, v3
+
+    invoke-virtual {v0, v1, v2}, Ljava/lang/StringBuilder;->append(J)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    const-string v1, "ms ago"
+
+    .line 1543
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    :goto_0
+    const-string v0, " - "
+
+    .line 1545
+    invoke-virtual {p1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-direct {p0}, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->getStatus()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    iget-object v0, p0, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->mSql:Ljava/lang/String;
+
+    const-string v1, "\""
+
+    if-eqz v0, :cond_1
+
+    const-string v0, ", sql=\""
+
+    .line 1547
+    invoke-virtual {p1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    iget-object v2, p0, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->mSql:Ljava/lang/String;
+
+    invoke-static {v2}, Lio/requery/android/database/sqlite/SQLiteConnection;->-$$Nest$smtrimSqlForDisplay(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
+
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    :cond_1
+    if-eqz p2, :cond_7
+
+    iget-object p2, p0, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->mBindArgs:Ljava/util/ArrayList;
+
+    if-eqz p2, :cond_7
+
+    .line 1549
+    invoke-virtual {p2}, Ljava/util/ArrayList;->size()I
+
+    move-result p2
+
+    if-eqz p2, :cond_7
+
+    const-string p2, ", bindArgs=["
+
+    .line 1550
+    invoke-virtual {p1, p2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    iget-object p2, p0, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->mBindArgs:Ljava/util/ArrayList;
+
+    .line 1551
+    invoke-virtual {p2}, Ljava/util/ArrayList;->size()I
+
+    move-result p2
+
+    const/4 v0, 0x0
+
+    :goto_1
+    if-ge v0, p2, :cond_6
+
+    iget-object v2, p0, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->mBindArgs:Ljava/util/ArrayList;
+
+    .line 1553
+    invoke-virtual {v2, v0}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
+
+    move-result-object v2
+
+    if-eqz v0, :cond_2
+
+    const-string v3, ", "
+
+    .line 1555
+    invoke-virtual {p1, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    :cond_2
+    if-nez v2, :cond_3
+
+    const-string v2, "null"
+
+    .line 1558
+    invoke-virtual {p1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    goto :goto_2
+
+    .line 1559
+    :cond_3
+    instance-of v3, v2, [B
+
+    if-eqz v3, :cond_4
+
+    const-string v2, "<byte[]>"
+
+    .line 1560
+    invoke-virtual {p1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    goto :goto_2
+
+    .line 1561
+    :cond_4
+    instance-of v3, v2, Ljava/lang/String;
+
+    if-eqz v3, :cond_5
+
+    .line 1562
+    invoke-virtual {p1, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
+
+    check-cast v2, Ljava/lang/String;
+
+    invoke-virtual {v3, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    goto :goto_2
+
+    .line 1564
+    :cond_5
+    invoke-virtual {p1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+
+    :goto_2
+    add-int/lit8 v0, v0, 0x1
+
+    goto :goto_1
+
+    :cond_6
+    const-string p2, "]"
+
+    .line 1567
+    invoke-virtual {p1, p2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    :cond_7
+    iget-object p2, p0, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->mException:Ljava/lang/Exception;
+
+    if-eqz p2, :cond_8
+
+    const-string p2, ", exception=\""
+
+    .line 1570
+    invoke-virtual {p1, p2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object p1
+
+    iget-object p2, p0, Lio/requery/android/database/sqlite/SQLiteConnection$Operation;->mException:Ljava/lang/Exception;
+
+    invoke-virtual {p2}, Ljava/lang/Exception;->getMessage()Ljava/lang/String;
+
+    move-result-object p2
+
+    invoke-virtual {p1, p2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object p1
+
+    invoke-virtual {p1, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    :cond_8
+    return-void
+.end method

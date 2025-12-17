@@ -1,0 +1,223 @@
+{
+  "lang": "English",
+  "sponsor": "Sponsor Noi",
+  "menu": {
+    "name": "Menu",
+    "about": "About Noi",
+    "hide": "Hide Noi",
+    "hideOthers": "Hide Others",
+    "quit": "Quit Noi",
+    "unhide": "Show All",
+    "checkUpdates": "Check for Updates…",
+
+    "settings": "Settings",
+    "languages": "Languages",
+    "theme": {
+      "name": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System",
+      "monochromatic": "Monochromatic",
+      "frostedTexture": "Frosted Texture"
+    },
+    "stayOnTop": "Stay On Top",
+    "lockSidebar": "Lock Sidebar",
+    "showSidebar": "Show Sidebar",
+    "hideSidebar": "Hide Sidebar",
+    "noiCacheMode": "Noi Cache Mode",
+    "devTools": "Developer Tools",
+    "xQuit": "Click [X] to Exit",
+    "systemTray": "System Tray",
+
+    "edit": "Edit",
+    "undo": "Undo",
+    "redo": "Redo",
+    "pasteAndMatchStyle": "Paste and Match Style",
+    "delete": "Delete",
+
+    "view": "View",
+    "refresh": "Refresh the Page",
+    "goBack": "Go Back",
+    "goForward": "Go Forward",
+    "resetZoom": "Actual Size",
+    "zoomIn": "Zoom In",
+    "zoomOut": "Zoom Out",
+    "fullScreen": "Enter Full Screen",
+
+    "help": "Help",
+    "log": "Noi Log",
+    "gettingStarted": "Getting Started",
+    "issues": "GitHub Issues",
+    "shareIdeas": "Share Ideas and Feedback",
+
+    "defaultWebBrowser": "Default web browser",
+    "learnSpelling": "Learn Spelling",
+    "lookUpSelection": "Look Up “{selection}”",
+    "searchWithGoogle": "Search with Google",
+    "searchWithBing": "Search with Bing",
+    "cut": "Cut",
+    "copy": "Copy",
+    "paste": "Paste",
+    "selectAll": "Select All",
+    "saveImage": "Save Image",
+    "saveImageAs": "Save Image As…",
+    "saveVideo": "Save Video",
+    "saveVideoAs": "Save Video As…",
+    "copyLink": "Copy Link",
+    "saveLinkAs": "Save Link As…",
+    "copyImage": "Copy Image",
+    "copyImageAddress": "Copy Image Address",
+    "copyVideoAddress": "Copy Video Address",
+    "inspect": "Inspect Element",
+    "services": "Services",
+    "reload": "Reload",
+    "rename": "Rename",
+    "user": "User",
+    "setSystemTray": "Set as System Tray",
+    "clearCache": "Clear Cache Data",
+    "find": {
+      "name": "Find",
+      "findInPage": "Find in page…",
+      "findNext": "Find Next",
+      "findPrevious": "Find Previous",
+      "jumpToSelection": "Jump to Selection"
+    }
+  },
+  "form": {
+    "name": "Name",
+    "url": "URL",
+    "isolatedCookieStorage": "Isolated Cookie Storage",
+    "invalidURL": "Please enter a valid URL.",
+    "nameNotEmpty": "Name cannot be empty."
+  },
+  "sidebar": {
+    "warn": {
+      "urlDelete": "The current URL is in use.",
+      "dirDelete": "The current directory is in use.",
+      "trayDelete": "The system tray is using the current URL, it cannot be deleted."
+    },
+    "tip": {
+      "delete": "Cannot be recovered after deletion, are you sure you want to delete?",
+      "syncOverwrite": "Synchronization will overwrite all data except for custom data. Do you want to continue?",
+      "syncReset": "You are currently on the latest version. Synchronization will reset all data except for custom data. Do you want to continue?",
+      "syncOk": "Synchronization successful",
+      "syncResetOk": "Reset successful"
+    }
+  },
+  "network": {
+    "error": {
+      "try": "Try:",
+      "title": "This site can’t be reached",
+      "longRespond": "took too long to respond.",
+      "checkConnection": "Checking the connection",
+      "checkProxy": "Checking the proxy and the firewall"
+    }
+  },
+  "settings": {
+    "menu": {
+      "general": {
+        "name": "General",
+        "syncBookmarks": "Sync Bookmarks",
+        "proxy": "Proxy",
+        "proxyRules": "Rules",
+        "proxyBypassRules": "BypassRules",
+        "promptLogLimit": "Log Limit",
+        "promptLogArchiveLimit": "Log Archive Limit",
+        "promptFavoritesLimit": "Favorites Limit",
+        "promptFavoritesArchiveLimit": "Favorites Archive Limit"
+      },
+      "keyboardShortcuts": {
+        "name": "Keyboard Shortcuts",
+        "recording": "Recording…",
+        "globalShortcut": "Global shortcut",
+        "trayShortcut": "System Tray Shortcut"
+      },
+      "extensions": "Extensions",
+      "prompts": {
+        "name": "Prompts",
+        "userPrompts": "User Prompts",
+        "promptTags": "Prompt Tags",
+        "customSync": "Custom Sync"
+      }
+    },
+    "confirm": {
+      "delete": "Are you sure you want to delete this record?",
+      "batchEnable": "Are you sure you want to enable these prompts?",
+      "batchDelete": "Are you sure you want to delete these prompts?",
+      "batchDisable": "Are you sure you want to disable these prompts?",
+      "batchUse": "Are you sure you want to use these prompts?",
+      "batchTagsAdd": "Are you sure you want to add these tags?",
+      "batchTagsDelete": "Are you sure you want to delete these tags?"
+    },
+    "message": {
+      "added": "Added",
+      "synced": "Synchronized",
+      "invalidData": "Invalid Data",
+      "missingActAndPrompt": "Missing fields: 'act', 'prompt'. Try using 'Alias' to rename.",
+      "missingManifest": "The manifest.json file is missing or invalid.",
+      "checkExtension": "Please recheck the extension directory:",
+      "existExtension": "The extension already exists."
+    },
+    "tip": {
+      "proxyRules": "Rules indicating which proxies to use.",
+      "proxyBypassRules": "Rules indicating which URLs should bypass the proxy settings.",
+      "shortcutRule": "Shortcut Rule",
+      "modifierKeys": "Modifier keys",
+      "regularKeys": "Regular keys",
+      "noiExtension": "Note that Noi does not support the full range of Chrome extensions APIs. See Supported Extensions APIs for more details on what is supported.",
+      "noiCacheMode": "Caches webpage states for quick re-access, similar to browser tabs. Continuous state recording increases memory usage, especially when frequently accessing different sidebar links. To mitigate memory impact, especially during system lag, consider disabling or restarting the cache after multiple switches.",
+      "promptLogLimit": "Maximum number of prompts to retain in the log (10-1,000), with the default set to 300.",
+      "promptLogArchiveLimit_1": "Maximum number of prompts that can be stored in a single archive file (1,000-10,000), with the default set to 1,000.",
+      "promptLogArchiveLimit_2": "1. File currently being archived: {{file}}.archiving.json",
+      "promptLogArchiveLimit_3": "2. Naming convention for completed archive files: {{file}}_YYYY.MM.DD.HH.mm.ss_YYYY.MM.DD.HH.mm.ss.json, where YYYY.MM.DD.HH.mm.ss represents the start and end times, respectively. For example: {{file}}_2024.01.01.12.00.00_2024.08.08.10.10.00.json"
+    },
+    "table": {
+      "name": "Name",
+      "extension": "Extension",
+      "description": "Description",
+      "version": "Version",
+      "tag": "Tag",
+      "color": "Color",
+      "lastUpdate": "Last Update",
+      "usageCount": "Usage Count"
+    }
+  },
+  "action": {
+    "name": "Action",
+    "add": "Add",
+    "cancel": "Cancel",
+    "create": "Create",
+    "confirm": "Confirm",
+    "detail": "Detail",
+    "delete": "Delete",
+    "disable": "Disable",
+    "edit": "Edit",
+    "enable": "Enable",
+    "export": "Export",
+    "refresh": "Refresh",
+    "reset": "Reset",
+    "sync": "Sync",
+    "save": "Save",
+    "search": "Search",
+    "select": "Select",
+    "use": "Use",
+    "copied": "Copied",
+    "batchAdd": "Batch Add",
+    "batchDisable": "Batch Disable",
+    "batchEnable": "Batch Enable",
+    "batchDelete": "Batch Delete",
+    "batchUse": "Batch Use"
+  },
+  "prompt": {
+    "promptFavorite": "Prompts Favorite",
+    "promptLog": "Prompts Log",
+    "promptSend": "Prompt Send",
+    "newChat": "New chat",
+    "sendMessage": "Send message",
+    "resetPanel": "Reset Panel",
+    "promptCmd": "Prompt command",
+    "sizeSmall": "Small",
+    "sizeMedium": "Medium",
+    "sizeLarge": "Large"
+  }
+}

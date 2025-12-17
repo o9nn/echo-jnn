@@ -1,0 +1,15 @@
+# Toga Personality System Requirements
+# Minimal dependencies for core functionality
+
+# No external dependencies required for core functionality
+# All implementations use Python standard library only
+
+# Optional dependencies for extended features:
+# - For JSON serialization: built-in json module
+# - For randomization: built-in random module
+# - For timing: built-in time module
+
+# If integrating with Layla/Neuro-Sama frameworks, additional dependencies may include:
+# websockets>=10.0  # For WebSocket communication
+# aiohttp>=3.8.0    # For async HTTP
+# pydantic>=2.0.0   # For data validation (optional)

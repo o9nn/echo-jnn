@@ -1,0 +1,41 @@
+# Temporary files
+/tmp/
+
+# Build artifacts
+build/
+dist/
+*.class
+*.dex
+*.apk
+*.aab
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+*.iws
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Local configuration
+local.properties
+keystore.properties
+
+# Gradle
+.gradle/
+gradle-wrapper.jar
+gradlew
+gradlew.bat
+
+# Documentation build artifacts
+docs/.build/
+docs/_site/
+
+# Cache directories
+.cache/
+node_modules/

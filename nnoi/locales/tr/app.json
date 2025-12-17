@@ -1,0 +1,223 @@
+{
+  "lang": "Türkçe",
+  "sponsor": "Noi'yi Destekle",
+  "menu": {
+    "name": "Menü",
+    "about": "Noi Hakkında",
+    "hide": "Noi'yi Gizle",
+    "hideOthers": "Diğerlerini Gizle",
+    "quit": "Noi'den Çık",
+    "unhide": "Tümünü Göster",
+    "checkUpdates": "Güncellemeleri Kontrol Et…",
+
+    "settings": "Ayarlar",
+    "languages": "Diller",
+    "theme": {
+      "name": "Tema",
+      "light": "Açık",
+      "dark": "Koyu",
+      "system": "Sistem",
+      "monochromatic": "Monokrom",
+      "frostedTexture": "Buzlu Doku"
+    },
+    "stayOnTop": "Üstte Kal",
+    "lockSidebar": "Kenar Çubuğunu Kilitle",
+    "showSidebar": "Kenar Çubuğunu Göster",
+    "hideSidebar": "Kenar Çubuğunu Gizle",
+    "noiCacheMode": "Noi Önbellek Modu",
+    "devTools": "Geliştirici Araçları",
+    "xQuit": "[X]'e Tıklayarak Çık",
+    "systemTray": "Sistem Tepsisi",
+
+    "edit": "Düzenle",
+    "undo": "Geri Al",
+    "redo": "Yinele",
+    "pasteAndMatchStyle": "Yapıştır ve Stili Eşle",
+    "delete": "Sil",
+
+    "view": "Görünüm",
+    "refresh": "Sayfayı Yenile",
+    "goBack": "Geri Git",
+    "goForward": "İleri Git",
+    "resetZoom": "Gerçek Boyut",
+    "zoomIn": "Yakınlaştır",
+    "zoomOut": "Uzaklaştır",
+    "fullScreen": "Tam Ekran Gir",
+
+    "help": "Yardım",
+    "log": "Noi Günlüğü",
+    "gettingStarted": "Başlarken",
+    "issues": "GitHub Sorunları",
+    "shareIdeas": "Fikir ve Geribildirim Paylaş",
+
+    "defaultWebBrowser": "Varsayılan Web Tarayıcısı",
+    "learnSpelling": "Yazımı Öğren",
+    "lookUpSelection": "“{selection}” Araştır",
+    "searchWithGoogle": "Google ile Ara",
+    "searchWithBing": "Bing ile Ara",
+    "cut": "Kes",
+    "copy": "Kopyala",
+    "paste": "Yapıştır",
+    "selectAll": "Tümünü Seç",
+    "saveImage": "Resmi Kaydet",
+    "saveImageAs": "Resmi Farklı Kaydet…",
+    "saveVideo": "Videoyu Kaydet",
+    "saveVideoAs": "Videoyu Farklı Kaydet…",
+    "copyLink": "Bağlantıyı Kopyala",
+    "saveLinkAs": "Bağlantıyı Farklı Kaydet…",
+    "copyImage": "Resmi Kopyala",
+    "copyImageAddress": "Resim Adresini Kopyala",
+    "copyVideoAddress": "Video Adresini Kopyala",
+    "inspect": "Öğeyi Denetle",
+    "services": "Hizmetler",
+    "reload": "Yeniden Yükle",
+    "rename": "Yeniden Adlandır",
+    "user": "Kullanıcı",
+    "setSystemTray": "Sistem Tepsisi Olarak Ayarla",
+    "clearCache": "Önbellek Verilerini Temizle",
+    "find": {
+      "name": "Bul",
+      "findInPage": "Sayfada bul…",
+      "findNext": "Sonrakini Bul",
+      "findPrevious": "Öncekini Bul",
+      "jumpToSelection": "Seçime Git"
+    }
+  },
+  "form": {
+    "name": "Ad",
+    "url": "URL",
+    "isolatedCookieStorage": "Bağımsız Çerez Depolama",
+    "invalidURL": "Lütfen geçerli bir URL girin.",
+    "nameNotEmpty": "Ad boş olamaz."
+  },
+  "sidebar": {
+    "warn": {
+      "urlDelete": "Mevcut URL kullanımda.",
+      "dirDelete": "Mevcut dizin kullanımda.",
+      "trayDelete": "Sistem tepsisi mevcut URL'yi kullanıyor, silinemez."
+    },
+    "tip": {
+      "delete": "Silindikten sonra geri alınamaz, silmek istediğinizden emin misiniz?",
+      "syncOverwrite": "Senkronizasyon, özel veriler dışındaki tüm verilerin üzerine yazacaktır. Devam etmek istiyor musunuz?",
+      "syncReset": "Şu anda en güncel sürüm üzerindesiniz. Senkronizasyon, özel veriler dışındaki tüm verileri sıfırlayacaktır. Devam etmek istiyor musunuz?",
+      "syncOk": "Senkronizasyon başarılı",
+      "syncResetOk": "Sıfırlama başarılı"
+    }
+  },
+  "network": {
+    "error": {
+      "try": "Deneyin:",
+      "title": "Bu siteye ulaşılamıyor",
+      "longRespond": "yanıt vermesi çok uzun sürdü.",
+      "checkConnection": "Bağlantıyı kontrol et",
+      "checkProxy": "Proxy'yi ve güvenlik duvarını kontrol et"
+    }
+  },
+  "settings": {
+    "menu": {
+      "general": {
+        "name": "Genel",
+        "syncBookmarks": "Yer İşaretlerini Senkronize Et",
+        "proxy": "Proxy",
+        "proxyRules": "Kurallar",
+        "proxyBypassRules": "Yönlendirme Kurallarını Atlama",
+        "promptLogLimit": "Günlük Limiti",
+        "promptLogArchiveLimit": "Günlük Arşiv Limiti",
+        "promptFavoritesLimit": "Favoriler Limiti",
+        "promptFavoritesArchiveLimit": "Favoriler Arşiv Limiti"
+      },
+      "keyboardShortcuts": {
+        "name": "Klavye Kısayolları",
+        "recording": "Kaydediliyor…",
+        "globalShortcut": "Global Kısayol",
+        "trayShortcut": "Sistem Tepsisi Kısayolu"
+      },
+      "extensions": "Eklentiler",
+      "prompts": {
+        "name": "İstemler",
+        "userPrompts": "Kullanıcı İstemleri",
+        "promptTags": "İstem Etiketleri",
+        "customSync": "Özel Senkronizasyon"
+      }
+    },
+    "confirm": {
+      "delete": "Bu kaydı silmek istediğinizden emin misiniz?",
+      "batchEnable": "Bu istemleri etkinleştirmek istediğinizden emin misiniz?",
+      "batchDelete": "Bu istemleri silmek istediğinizden emin misiniz?",
+      "batchDisable": "Bu istemleri devre dışı bırakmak istediğinizden emin misiniz?",
+      "batchUse": "Bu istemleri kullanmak istediğinizden emin misiniz?",
+      "batchTagsAdd": "Bu etiketleri eklemek istediğinizden emin misiniz?",
+      "batchTagsDelete": "Bu etiketleri silmek istediğinizden emin misiniz?"
+    },
+    "message": {
+      "added": "Eklendi",
+      "synced": "Senkronize Edildi",
+      "invalidData": "Geçersiz Veri",
+      "missingActAndPrompt": "Eksik alanlar: 'act', 'prompt'. Yeniden adlandırmak için 'Alias' kullanmayı deneyin.",
+      "missingManifest": "manifest.json dosyası eksik veya geçersiz.",
+      "checkExtension": "Lütfen eklenti dizinini yeniden kontrol edin:",
+      "existExtension": "Eklenti zaten var."
+    },
+    "tip": {
+      "proxyRules": "Hangi proxylerin kullanılacağını belirten kurallar.",
+      "proxyBypassRules": "Proxy ayarlarını atlayacak URL'leri belirten kurallar.",
+      "shortcutRule": "Kısayol Kuralı",
+      "modifierKeys": "Değiştirici tuşlar",
+      "regularKeys": "Normal tuşlar",
+      "noiExtension": "Noi'nin Chrome eklentileri API'lerinin tam bir yelpazesini desteklemediğini unutmayın. Desteklenen Eklenti API'leri için daha fazla detay görmek için desteklenen uzantılar API'lerine bakın.",
+      "noiCacheMode": "Hızlı yeniden erişim için web sayfası durumlarını önbelleğe alır, tarayıcı sekmelerine benzer. Sürekli durum kaydı, özellikle farklı kenar çubuğu bağlantılarına sık sık erişirken, bellek kullanımını artırır. Özellikle sistem yavaşladığında bellek etkisini azaltmak için, önbelleği devre dışı bırakmayı veya birden fazla geçişten sonra yeniden başlatmayı düşünün.",
+      "promptLogLimit": "Günlükte tutulacak maksimum istem sayısı (10-1000), varsayılan olarak 300 olarak ayarlanmıştır.",
+      "promptLogArchiveLimit_1": "Tek bir arşiv dosyasında saklanabilecek maksimum istem sayısı (1000-10000), varsayılan olarak 1000 olarak ayarlanmıştır.",
+      "promptLogArchiveLimit_2": "1. Şu anda arşivlenmekte olan dosya: {{file}}.archiving.json",
+      "promptLogArchiveLimit_3": "2. Tamamlanmış arşiv dosyaları için adlandırma kuralı: {{file}}_YYYY.MM.DD.HH.mm.ss_YYYY.MM.DD.HH.mm.ss.json, burada YYYY.MM.DD.HH.mm.ss sırasıyla başlangıç ve bitiş zamanlarını temsil eder. Örneğin: {{file}}_2024.01.01.12.00.00_2024.08.08.10.10.00.json"
+    },
+    "table": {
+      "name": "Ad",
+      "extension": "Eklenti",
+      "description": "Açıklama",
+      "version": "Sürüm",
+      "tag": "Etiket",
+      "color": "Renk",
+      "lastUpdate": "Son Güncelleme",
+      "usageCount": "Kullanım Sayısı"
+    }
+  },
+  "action": {
+    "name": "Aksiyon",
+    "add": "Ekle",
+    "cancel": "İptal",
+    "create": "Oluştur",
+    "confirm": "Onayla",
+    "detail": "Detay",
+    "delete": "Sil",
+    "disable": "Devre Dışı Bırak",
+    "edit": "Düzenle",
+    "enable": "Etkinleştir",
+    "export": "Dışa Aktar",
+    "refresh": "Yenile",
+    "reset": "Sıfırla",
+    "sync": "Senkronize Et",
+    "save": "Kaydet",
+    "search": "Ara",
+    "select": "Seç",
+    "use": "Kullan",
+    "copied": "Kopyalandı",
+    "batchAdd": "Toplu Ekle",
+    "batchDisable": "Toplu Devre Dışı Bırak",
+    "batchEnable": "Toplu Etkinleştir",
+    "batchDelete": "Toplu Sil",
+    "batchUse": "Toplu Kullan"
+  },
+  "prompt": {
+    "promptFavorite": "Komut Favorileri",
+    "promptLog": "Komut Günlüğü",
+    "promptSend": "Komut Gönder",
+    "newChat": "Yeni Sohbet",
+    "sendMessage": "Mesaj Gönder",
+    "resetPanel": "Paneli Sıfırla",
+    "promptCmd": "Komut Komutu",
+    "sizeSmall": "Küçük",
+    "sizeMedium": "Orta",
+    "sizeLarge": "Büyük"
+  }
+}

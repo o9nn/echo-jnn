@@ -1,0 +1,30 @@
+{
+  "name": "Noi Extensions",
+  "homepage": "https://github.com/lencx/Noi/blob/main/extensions/noi.extensions.json",
+  "extensions": [
+    {
+      "name": "@noi/ask",
+      "description": "The best assistant for batch asking and quick typing of prompts.",
+      "version": "0.2.2",
+      "url": "https://github.com/lencx/Noi/tree/main/extensions/noi-ask",
+      "dirname": "noi-ask",
+      "disabled": false
+    },
+    {
+      "name": "@noi/ask-custom",
+      "description": "The best assistant for batch asking and quick typing of prompts.",
+      "version": "0.1.0",
+      "url": "https://github.com/lencx/Noi/tree/main/extensions/noi-ask-custom",
+      "dirname": "noi-ask-custom",
+      "disabled": false
+    },
+    {
+      "name": "@noi/reset",
+      "description": "Reset certain website styles to enhance compatibility with Noi.",
+      "version": "0.1.3",
+      "url": "https://github.com/lencx/Noi/tree/main/extensions/noi-reset",
+      "dirname": "noi-reset",
+      "disabled": false
+    }
+  ]
+}

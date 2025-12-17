@@ -1,0 +1,565 @@
+.class final Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3;
+.super Ljavax/lang/model/util/SimpleAnnotationValueVisitor8;
+.source "$SuperficialValidation.java"
+
+
+# annotations
+.annotation system Ldalvik/annotation/EnclosingClass;
+    value = Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation;
+.end annotation
+
+.annotation system Ldalvik/annotation/InnerClass;
+    accessFlags = 0x8
+    name = null
+.end annotation
+
+.annotation system Ldalvik/annotation/Signature;
+    value = {
+        "Ljavax/lang/model/util/SimpleAnnotationValueVisitor8<",
+        "Ljava/lang/Boolean;",
+        "Ljavax/lang/model/type/TypeMirror;",
+        ">;"
+    }
+.end annotation
+
+
+# direct methods
+.method constructor <init>()V
+    .locals 0
+
+    .line 208
+    invoke-direct {p0}, Ljavax/lang/model/util/SimpleAnnotationValueVisitor8;-><init>()V
+
+    return-void
+.end method
+
+
+# virtual methods
+.method protected defaultAction(Ljava/lang/Object;Ljavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+    .locals 0
+
+    .line 210
+    invoke-virtual {p1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+
+    move-result-object p1
+
+    invoke-static {p1, p2}, Lautovalue/shaded/com/google$/auto/common/$MoreTypes;->isTypeOf(Ljava/lang/Class;Ljavax/lang/model/type/TypeMirror;)Z
+
+    move-result p1
+
+    invoke-static {p1}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method protected bridge synthetic defaultAction(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    .locals 0
+
+    .line 208
+    check-cast p2, Ljavax/lang/model/type/TypeMirror;
+
+    invoke-virtual {p0, p1, p2}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3;->defaultAction(Ljava/lang/Object;Ljavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method synthetic lambda$visitArray$0$autovalue-shaded-com-google$-auto-common-$SuperficialValidation$3(Ljavax/lang/model/type/TypeMirror;Ljavax/lang/model/element/AnnotationValue;)Z
+    .locals 0
+
+    .line 229
+    invoke-interface {p2, p0, p1}, Ljavax/lang/model/element/AnnotationValue;->accept(Ljavax/lang/model/element/AnnotationValueVisitor;Ljava/lang/Object;)Ljava/lang/Object;
+
+    move-result-object p1
+
+    check-cast p1, Ljava/lang/Boolean;
+
+    invoke-virtual {p1}, Ljava/lang/Boolean;->booleanValue()Z
+
+    move-result p1
+
+    return p1
+.end method
+
+.method public visitAnnotation(Ljavax/lang/model/element/AnnotationMirror;Ljavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+    .locals 2
+
+    .line 219
+    invoke-static {}, Lautovalue/shaded/com/google$/auto/common/$MoreTypes;->equivalence()Lautovalue/shaded/com/google$/common/base/$Equivalence;
+
+    move-result-object v0
+
+    invoke-interface {p1}, Ljavax/lang/model/element/AnnotationMirror;->getAnnotationType()Ljavax/lang/model/type/DeclaredType;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1, p2}, Lautovalue/shaded/com/google$/common/base/$Equivalence;->equivalent(Ljava/lang/Object;Ljava/lang/Object;)Z
+
+    move-result p2
+
+    if-eqz p2, :cond_0
+
+    .line 220
+    invoke-static {p1}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation;->access$400(Ljavax/lang/model/element/AnnotationMirror;)Z
+
+    move-result p1
+
+    if-eqz p1, :cond_0
+
+    const/4 p1, 0x1
+
+    goto :goto_0
+
+    :cond_0
+    const/4 p1, 0x0
+
+    .line 219
+    :goto_0
+    invoke-static {p1}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public bridge synthetic visitAnnotation(Ljavax/lang/model/element/AnnotationMirror;Ljava/lang/Object;)Ljava/lang/Object;
+    .locals 0
+
+    .line 208
+    check-cast p2, Ljavax/lang/model/type/TypeMirror;
+
+    invoke-virtual {p0, p1, p2}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3;->visitAnnotation(Ljavax/lang/model/element/AnnotationMirror;Ljavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public visitArray(Ljava/util/List;Ljavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+    .locals 2
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "(",
+            "Ljava/util/List<",
+            "+",
+            "Ljavax/lang/model/element/AnnotationValue;",
+            ">;",
+            "Ljavax/lang/model/type/TypeMirror;",
+            ")",
+            "Ljava/lang/Boolean;"
+        }
+    .end annotation
+
+    .line 225
+    invoke-interface {p2}, Ljavax/lang/model/type/TypeMirror;->getKind()Ljavax/lang/model/type/TypeKind;
+
+    move-result-object v0
+
+    sget-object v1, Ljavax/lang/model/type/TypeKind;->ARRAY:Ljavax/lang/model/type/TypeKind;
+
+    invoke-virtual {v0, v1}, Ljavax/lang/model/type/TypeKind;->equals(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-nez v0, :cond_0
+
+    const/4 p1, 0x0
+
+    .line 226
+    invoke-static {p1}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+
+    .line 228
+    :cond_0
+    invoke-static {p2}, Lautovalue/shaded/com/google$/auto/common/$MoreTypes;->asArray(Ljavax/lang/model/type/TypeMirror;)Ljavax/lang/model/type/ArrayType;
+
+    move-result-object p2
+
+    invoke-interface {p2}, Ljavax/lang/model/type/ArrayType;->getComponentType()Ljavax/lang/model/type/TypeMirror;
+
+    move-result-object p2
+
+    .line 229
+    invoke-interface {p1}, Ljava/util/List;->stream()Ljava/util/stream/Stream;
+
+    move-result-object p1
+
+    new-instance v0, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3$$ExternalSyntheticLambda0;
+
+    invoke-direct {v0, p0, p2}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3$$ExternalSyntheticLambda0;-><init>(Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3;Ljavax/lang/model/type/TypeMirror;)V
+
+    invoke-interface {p1, v0}, Ljava/util/stream/Stream;->allMatch(Ljava/util/function/Predicate;)Z
+
+    move-result p1
+
+    invoke-static {p1}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public bridge synthetic visitArray(Ljava/util/List;Ljava/lang/Object;)Ljava/lang/Object;
+    .locals 0
+
+    .line 208
+    check-cast p2, Ljavax/lang/model/type/TypeMirror;
+
+    invoke-virtual {p0, p1, p2}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3;->visitArray(Ljava/util/List;Ljavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public visitBoolean(ZLjavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+    .locals 0
+
+    .line 247
+    sget-object p1, Ljava/lang/Boolean;->TYPE:Ljava/lang/Class;
+
+    invoke-static {p1, p2}, Lautovalue/shaded/com/google$/auto/common/$MoreTypes;->isTypeOf(Ljava/lang/Class;Ljavax/lang/model/type/TypeMirror;)Z
+
+    move-result p1
+
+    invoke-static {p1}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public bridge synthetic visitBoolean(ZLjava/lang/Object;)Ljava/lang/Object;
+    .locals 0
+
+    .line 208
+    check-cast p2, Ljavax/lang/model/type/TypeMirror;
+
+    invoke-virtual {p0, p1, p2}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3;->visitBoolean(ZLjavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public visitByte(BLjavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+    .locals 0
+
+    .line 251
+    sget-object p1, Ljava/lang/Byte;->TYPE:Ljava/lang/Class;
+
+    invoke-static {p1, p2}, Lautovalue/shaded/com/google$/auto/common/$MoreTypes;->isTypeOf(Ljava/lang/Class;Ljavax/lang/model/type/TypeMirror;)Z
+
+    move-result p1
+
+    invoke-static {p1}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public bridge synthetic visitByte(BLjava/lang/Object;)Ljava/lang/Object;
+    .locals 0
+
+    .line 208
+    check-cast p2, Ljavax/lang/model/type/TypeMirror;
+
+    invoke-virtual {p0, p1, p2}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3;->visitByte(BLjavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public visitChar(CLjavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+    .locals 0
+
+    .line 255
+    sget-object p1, Ljava/lang/Character;->TYPE:Ljava/lang/Class;
+
+    invoke-static {p1, p2}, Lautovalue/shaded/com/google$/auto/common/$MoreTypes;->isTypeOf(Ljava/lang/Class;Ljavax/lang/model/type/TypeMirror;)Z
+
+    move-result p1
+
+    invoke-static {p1}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public bridge synthetic visitChar(CLjava/lang/Object;)Ljava/lang/Object;
+    .locals 0
+
+    .line 208
+    check-cast p2, Ljavax/lang/model/type/TypeMirror;
+
+    invoke-virtual {p0, p1, p2}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3;->visitChar(CLjavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public visitDouble(DLjavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+    .locals 0
+
+    .line 259
+    sget-object p1, Ljava/lang/Double;->TYPE:Ljava/lang/Class;
+
+    invoke-static {p1, p3}, Lautovalue/shaded/com/google$/auto/common/$MoreTypes;->isTypeOf(Ljava/lang/Class;Ljavax/lang/model/type/TypeMirror;)Z
+
+    move-result p1
+
+    invoke-static {p1}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public bridge synthetic visitDouble(DLjava/lang/Object;)Ljava/lang/Object;
+    .locals 0
+
+    .line 208
+    check-cast p3, Ljavax/lang/model/type/TypeMirror;
+
+    invoke-virtual {p0, p1, p2, p3}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3;->visitDouble(DLjavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public visitEnumConstant(Ljavax/lang/model/element/VariableElement;Ljavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+    .locals 2
+
+    .line 234
+    invoke-static {}, Lautovalue/shaded/com/google$/auto/common/$MoreTypes;->equivalence()Lautovalue/shaded/com/google$/common/base/$Equivalence;
+
+    move-result-object v0
+
+    invoke-interface {p1}, Ljavax/lang/model/element/VariableElement;->asType()Ljavax/lang/model/type/TypeMirror;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1, p2}, Lautovalue/shaded/com/google$/common/base/$Equivalence;->equivalent(Ljava/lang/Object;Ljava/lang/Object;)Z
+
+    move-result p2
+
+    if-eqz p2, :cond_0
+
+    .line 235
+    invoke-static {p1}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation;->validateElement(Ljavax/lang/model/element/Element;)Z
+
+    move-result p1
+
+    if-eqz p1, :cond_0
+
+    const/4 p1, 0x1
+
+    goto :goto_0
+
+    :cond_0
+    const/4 p1, 0x0
+
+    .line 234
+    :goto_0
+    invoke-static {p1}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public bridge synthetic visitEnumConstant(Ljavax/lang/model/element/VariableElement;Ljava/lang/Object;)Ljava/lang/Object;
+    .locals 0
+
+    .line 208
+    check-cast p2, Ljavax/lang/model/type/TypeMirror;
+
+    invoke-virtual {p0, p1, p2}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3;->visitEnumConstant(Ljavax/lang/model/element/VariableElement;Ljavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public visitFloat(FLjavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+    .locals 0
+
+    .line 263
+    sget-object p1, Ljava/lang/Float;->TYPE:Ljava/lang/Class;
+
+    invoke-static {p1, p2}, Lautovalue/shaded/com/google$/auto/common/$MoreTypes;->isTypeOf(Ljava/lang/Class;Ljavax/lang/model/type/TypeMirror;)Z
+
+    move-result p1
+
+    invoke-static {p1}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public bridge synthetic visitFloat(FLjava/lang/Object;)Ljava/lang/Object;
+    .locals 0
+
+    .line 208
+    check-cast p2, Ljavax/lang/model/type/TypeMirror;
+
+    invoke-virtual {p0, p1, p2}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3;->visitFloat(FLjavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public visitInt(ILjavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+    .locals 0
+
+    .line 267
+    sget-object p1, Ljava/lang/Integer;->TYPE:Ljava/lang/Class;
+
+    invoke-static {p1, p2}, Lautovalue/shaded/com/google$/auto/common/$MoreTypes;->isTypeOf(Ljava/lang/Class;Ljavax/lang/model/type/TypeMirror;)Z
+
+    move-result p1
+
+    invoke-static {p1}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public bridge synthetic visitInt(ILjava/lang/Object;)Ljava/lang/Object;
+    .locals 0
+
+    .line 208
+    check-cast p2, Ljavax/lang/model/type/TypeMirror;
+
+    invoke-virtual {p0, p1, p2}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3;->visitInt(ILjavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public visitLong(JLjavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+    .locals 0
+
+    .line 271
+    sget-object p1, Ljava/lang/Long;->TYPE:Ljava/lang/Class;
+
+    invoke-static {p1, p3}, Lautovalue/shaded/com/google$/auto/common/$MoreTypes;->isTypeOf(Ljava/lang/Class;Ljavax/lang/model/type/TypeMirror;)Z
+
+    move-result p1
+
+    invoke-static {p1}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public bridge synthetic visitLong(JLjava/lang/Object;)Ljava/lang/Object;
+    .locals 0
+
+    .line 208
+    check-cast p3, Ljavax/lang/model/type/TypeMirror;
+
+    invoke-virtual {p0, p1, p2, p3}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3;->visitLong(JLjavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public visitShort(SLjavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+    .locals 0
+
+    .line 275
+    sget-object p1, Ljava/lang/Short;->TYPE:Ljava/lang/Class;
+
+    invoke-static {p1, p2}, Lautovalue/shaded/com/google$/auto/common/$MoreTypes;->isTypeOf(Ljava/lang/Class;Ljavax/lang/model/type/TypeMirror;)Z
+
+    move-result p1
+
+    invoke-static {p1}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public bridge synthetic visitShort(SLjava/lang/Object;)Ljava/lang/Object;
+    .locals 0
+
+    .line 208
+    check-cast p2, Ljavax/lang/model/type/TypeMirror;
+
+    invoke-virtual {p0, p1, p2}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3;->visitShort(SLjavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public visitType(Ljavax/lang/model/type/TypeMirror;Ljavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+    .locals 0
+
+    .line 243
+    invoke-static {p1}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation;->validateType(Ljavax/lang/model/type/TypeMirror;)Z
+
+    move-result p1
+
+    invoke-static {p1}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public bridge synthetic visitType(Ljavax/lang/model/type/TypeMirror;Ljava/lang/Object;)Ljava/lang/Object;
+    .locals 0
+
+    .line 208
+    check-cast p2, Ljavax/lang/model/type/TypeMirror;
+
+    invoke-virtual {p0, p1, p2}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3;->visitType(Ljavax/lang/model/type/TypeMirror;Ljavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public visitUnknown(Ljavax/lang/model/element/AnnotationValue;Ljavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+    .locals 0
+
+    .line 215
+    invoke-virtual {p0, p1, p2}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3;->defaultAction(Ljava/lang/Object;Ljavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method
+
+.method public bridge synthetic visitUnknown(Ljavax/lang/model/element/AnnotationValue;Ljava/lang/Object;)Ljava/lang/Object;
+    .locals 0
+
+    .line 208
+    check-cast p2, Ljavax/lang/model/type/TypeMirror;
+
+    invoke-virtual {p0, p1, p2}, Lautovalue/shaded/com/google$/auto/common/$SuperficialValidation$3;->visitUnknown(Ljavax/lang/model/element/AnnotationValue;Ljavax/lang/model/type/TypeMirror;)Ljava/lang/Boolean;
+
+    move-result-object p1
+
+    return-object p1
+.end method

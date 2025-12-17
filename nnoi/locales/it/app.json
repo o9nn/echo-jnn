@@ -1,0 +1,223 @@
+{
+  "lang": "Italiano",
+  "sponsor": "Sponsorizzare Noi",
+  "menu": {
+    "name": "Menu",
+    "about": "Informazioni su Noi",
+    "hide": "Nascondi Noi",
+    "hideOthers": "Nascondi Altri",
+    "quit": "Esci da Noi",
+    "unhide": "Mostra Tutto",
+    "checkUpdates": "Verifica Aggiornamenti…",
+
+    "settings": "Impostazioni",
+    "languages": "Lingue",
+    "theme": {
+      "name": "Tema",
+      "light": "Chiaro",
+      "dark": "Scuro",
+      "system": "Sistema",
+      "monochromatic": "Monocromatico",
+      "frostedTexture": "Texture Sfumata"
+    },
+    "stayOnTop": "Rimani in Primo Piano",
+    "lockSidebar": "Blocca Barra Laterale",
+    "showSidebar": "Mostra Barra Laterale",
+    "hideSidebar": "Nascondi Barra Laterale",
+    "noiCacheMode": "Modalità Cache Noi",
+    "devTools": "Strumenti per Sviluppatori",
+    "xQuit": "Clicca [X] per Uscire",
+    "systemTray": "Vassoio di Sistema",
+
+    "edit": "Modifica",
+    "undo": "Annulla",
+    "redo": "Ripeti",
+    "pasteAndMatchStyle": "Incolla e Adatta Stile",
+    "delete": "Elimina",
+
+    "view": "Visualizza",
+    "refresh": "Aggiorna la Pagina",
+    "goBack": "Indietro",
+    "goForward": "Avanti",
+    "resetZoom": "Dimensione Reale",
+    "zoomIn": "Ingrandisci",
+    "zoomOut": "Riduci",
+    "fullScreen": "Schermo Intero",
+
+    "help": "Aiuto",
+    "log": "Registro Noi",
+    "gettingStarted": "Introduzione",
+    "issues": "Problemi su GitHub",
+    "shareIdeas": "Condividi Idee e Feedback",
+
+    "defaultWebBrowser": "Browser Web Predefinito",
+    "learnSpelling": "Impara Ortografia",
+    "lookUpSelection": "Cerca “{selection}”",
+    "searchWithGoogle": "Cerca con Google",
+    "searchWithBing": "Cerca con Bing",
+    "cut": "Taglia",
+    "copy": "Copia",
+    "paste": "Incolla",
+    "selectAll": "Seleziona Tutto",
+    "saveImage": "Salva Immagine",
+    "saveImageAs": "Salva Immagine Come…",
+    "saveVideo": "Salva Video",
+    "saveVideoAs": "Salva Video Come…",
+    "copyLink": "Copia Link",
+    "saveLinkAs": "Salva Link Come…",
+    "copyImage": "Copia Immagine",
+    "copyImageAddress": "Copia Indirizzo Immagine",
+    "copyVideoAddress": "Copia Indirizzo Video",
+    "inspect": "Ispeziona Elemento",
+    "services": "Servizi",
+    "reload": "Ricarica",
+    "rename": "Rinomina",
+    "user": "Utente",
+    "setSystemTray": "Imposta come Area di Notifica",
+    "clearCache": "Pulisci Cache",
+    "find": {
+      "name": "Trova",
+      "findInPage": "Trova nella pagina…",
+      "findNext": "Trova Successivo",
+      "findPrevious": "Trova Precedente",
+      "jumpToSelection": "Vai alla Selezione"
+    }
+  },
+  "form": {
+    "name": "Nome",
+    "url": "URL",
+    "isolatedCookieStorage": "Archiviazione Cookie Isolata",
+    "invalidURL": "Si prega di inserire un URL valido.",
+    "nameNotEmpty": "Il nome non può essere vuoto."
+  },
+  "sidebar": {
+    "warn": {
+      "urlDelete": "L'URL attuale è in uso.",
+      "dirDelete": "La directory attuale è in uso.",
+      "trayDelete": "Il vassoio di sistema sta utilizzando l'URL attuale, non può essere eliminato."
+    },
+    "tip": {
+      "delete": "Non può essere recuperato dopo l'eliminazione, sei sicuro di voler eliminare?",
+      "syncOverwrite": "La sincronizzazione sovrascriverà tutti i dati tranne quelli personalizzati. Vuoi continuare?",
+      "syncReset": "Attualmente sei sulla versione più recente. La sincronizzazione reimposterà tutti i dati tranne quelli personalizzati. Vuoi continuare?",
+      "syncOk": "Sincronizzazione riuscita",
+      "syncResetOk": "Reimpostazione riuscita"
+    }
+  },
+  "network": {
+    "error": {
+      "try": "Prova:",
+      "title": "Impossibile raggiungere il sito",
+      "longRespond": "ha impiegato troppo tempo per rispondere.",
+      "checkConnection": "Verifica la connessione",
+      "checkProxy": "Verifica il proxy e il firewall"
+    }
+  },
+  "settings": {
+    "menu": {
+      "general": {
+        "name": "Generale",
+        "syncBookmarks": "Sincronizza Segnalibri",
+        "proxy": "Proxy",
+        "proxyRules": "Regole",
+        "proxyBypassRules": "Regole di Bypass",
+        "promptLogLimit": "Limite Registro Prompt",
+        "promptLogArchiveLimit": "Limite Archivio Registro Prompt",
+        "promptFavoritesLimit": "Limite Preferiti",
+        "promptFavoritesArchiveLimit": "Limite Archivio Preferiti"
+      },
+      "keyboardShortcuts": {
+        "name": "Scorciatoie da Tastiera",
+        "recording": "Registrazione…",
+        "globalShortcut": "Scorciatoia Globale",
+        "trayShortcut": "Scorciatoia Vassoio di Sistema"
+      },
+      "extensions": "Estensioni",
+      "prompts": {
+        "name": "Prompt",
+        "userPrompts": "Prompt dell'Utente",
+        "promptTags": "Tag dei Prompt",
+        "customSync": "Sincronizzazione Personalizzata"
+      }
+    },
+    "confirm": {
+      "delete": "Sei sicuro di voler eliminare questo record?",
+      "batchEnable": "Sei sicuro di voler abilitare questi prompt?",
+      "batchDelete": "Sei sicuro di voler eliminare questi prompt?",
+      "batchDisable": "Sei sicuro di voler disabilitare questi prompt?",
+      "batchUse": "Sei sicuro di voler utilizzare questi prompt?",
+      "batchTagsAdd": "Sei sicuro di voler aggiungere questi tag?",
+      "batchTagsDelete": "Sei sicuro di voler eliminare questi tag?"
+    },
+    "message": {
+      "added": "Aggiunto",
+      "synced": "Sincronizzato",
+      "invalidData": "Dati non validi",
+      "missingActAndPrompt": "Campi mancanti: 'act', 'prompt'. Prova ad usare 'Alias' per rinominare.",
+      "missingManifest": "Il file manifest.json manca o è non valido.",
+      "checkExtension": "Si prega di ricontrollare la directory dell'estensione:",
+      "existExtension": "L'estensione esiste già."
+    },
+    "tip": {
+      "proxyRules": "Regole che indicano quali proxy utilizzare.",
+      "proxyBypassRules": "Regole che indicano quali URL dovrebbero ignorare le impostazioni del proxy.",
+      "shortcutRule": "Regola Scorciatoia",
+      "modifierKeys": "Tasti Modificatori",
+      "regularKeys": "Tasti Regolari",
+      "noiExtension": "Nota che Noi non supporta la gamma completa delle API delle estensioni Chrome. Consulta le API delle Estensioni Supportate per maggiori dettagli su cosa è supportato.",
+      "noiCacheMode": "Memorizza gli stati delle pagine web per un rapido re-accesso, simile alle schede del browser. La registrazione continua dello stato aumenta l'uso della memoria, specialmente quando si accede frequentemente a diversi link della barra laterale. Per mitigare l'impatto sulla memoria, specialmente durante il rallentamento del sistema, considera di disabilitare o riavviare la cache dopo numerosi cambiamenti.",
+      "promptLogLimit": "Numero massimo di prompt da mantenere nel registro (10-1000), con il valore predefinito impostato su 300.",
+      "promptLogArchiveLimit_1": "Numero massimo di prompt che possono essere memorizzati in un unico file di archivio (1000-10000), con il valore predefinito impostato su 1000.",
+      "promptLogArchiveLimit_2": "1. File attualmente in fase di archiviazione: {{file}}.archiving.json",
+      "promptLogArchiveLimit_3": "2. Convenzione di denominazione per i file di archivio completati: {{file}}_YYYY.MM.DD.HH.mm.ss_YYYY.MM.DD.HH.mm.ss.json, dove YYYY.MM.DD.HH.mm.ss rappresenta rispettivamente l'ora di inizio e di fine. Ad esempio: {{file}}_2024.01.01.12.00.00_2024.08.08.10.10.00.json"
+    },
+    "table": {
+      "name": "Nome",
+      "extension": "Estensione",
+      "description": "Descrizione",
+      "version": "Versione",
+      "tag": "Tag",
+      "color": "Colore",
+      "lastUpdate": "Ultimo Aggiornamento",
+      "usageCount": "Conteggio Utilizzo"
+    }
+  },
+  "action": {
+    "name": "Azione",
+    "add": "Aggiungi",
+    "cancel": "Annulla",
+    "create": "Crea",
+    "confirm": "Conferma",
+    "detail": "Dettaglio",
+    "delete": "Elimina",
+    "disable": "Disabilita",
+    "edit": "Modifica",
+    "enable": "Abilita",
+    "export": "Esporta",
+    "refresh": "Aggiorna",
+    "reset": "Reimposta",
+    "sync": "Sincronizza",
+    "save": "Salva",
+    "search": "Cerca",
+    "select": "Seleziona",
+    "use": "Usa",
+    "copied": "Copiato",
+    "batchAdd": "Aggiungi in batch",
+    "batchDisable": "Disabilita in batch",
+    "batchEnable": "Abilita in batch",
+    "batchDelete": "Elimina in batch",
+    "batchUse": "Usa in batch"
+  },
+  "prompt": {
+    "promptFavorite": "Preferiti dei prompt",
+    "promptLog": "Registro dei prompt",
+    "promptSend": "Invia prompt",
+    "newChat": "Nuova chat",
+    "sendMessage": "Invia messaggio",
+    "resetPanel": "Reimposta pannello",
+    "promptCmd": "Comando prompt",
+    "sizeSmall": "Piccolo",
+    "sizeMedium": "Medio",
+    "sizeLarge": "Grande"
+  }
+}

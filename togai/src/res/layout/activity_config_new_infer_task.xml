@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="?android:colorBackground" android:padding="16.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textColor="?android:textColorPrimary" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:text="Select a model" />
+    <Spinner android:id="@id/spinnerFileSelect" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="16.0dip" />
+    <TextView android:textColor="?android:textColorPrimary" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:text="System Prompt Start" />
+    <EditText android:textColor="?android:textColorPrimary" android:textColorHint="?android:textColorSecondary" android:id="@id/editTextSysPromptStart" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="Enter system prompt start" android:inputType="textMultiLine" />
+    <TextView android:textColor="?android:textColorPrimary" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:text="System Prompt End" />
+    <EditText android:textColor="?android:textColorPrimary" android:textColorHint="?android:textColorSecondary" android:id="@id/editTextSysPromptEnd" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="Enter system prompt end" android:inputType="textMultiLine" />
+    <TextView android:textColor="?android:textColorPrimary" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:text="Antiprompt" />
+    <EditText android:textColor="?android:textColorPrimary" android:textColorHint="?android:textColorSecondary" android:id="@id/editTextAntiprompt" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="Enter antiprompt" android:inputType="textMultiLine" />
+    <TextView android:textColor="?android:textColorPrimary" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:text="Input Prefix" />
+    <EditText android:textColor="?android:textColorPrimary" android:textColorHint="?android:textColorSecondary" android:id="@id/editTextInputPrefix" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="Enter input prefix" android:inputType="textMultiLine" />
+    <TextView android:textColor="?android:textColorPrimary" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:text="Input Suffix" />
+    <EditText android:textColor="?android:textColorPrimary" android:textColorHint="?android:textColorSecondary" android:id="@id/editTextInputSuffix" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="Enter input suffix" android:inputType="textMultiLine" />
+</LinearLayout>
