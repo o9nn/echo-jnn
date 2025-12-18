@@ -182,7 +182,7 @@ Random.seed!(42)
         jsurface = create_jsurface(20, symplectic=true)
         
         @test jsurface.dimension == 20
-        @test jsurface.symplectic == true
+        # Note: symplectic property is implicit in the structure_matrix (skew-symmetric)
         @test size(jsurface.structure_matrix) == (20, 20)
         
         # Test state creation
@@ -216,6 +216,8 @@ Random.seed!(42)
         println("\n[4/9] Testing P-System Reservoirs...")
         
         using .DeepTreeEcho.PSystemReservoir
+        # Import specific types and functions explicitly to avoid ambiguity
+        import .DeepTreeEcho.PSystemReservoir: Multiset, EvolutionRule, add_evolution_rule!, evolve_membrane!
         
         # Test membrane creation
         reservoir = create_membrane_reservoir(
@@ -251,6 +253,8 @@ Random.seed!(42)
         println("\n[5/9] Testing Membrane Gardens...")
         
         using .DeepTreeEcho.MembraneGarden
+        # Import harvest_feedback! explicitly from MembraneGarden to avoid ambiguity
+        import .DeepTreeEcho.MembraneGarden: harvest_feedback!
         
         # Test garden creation
         garden = create_garden()

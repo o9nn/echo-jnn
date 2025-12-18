@@ -333,12 +333,39 @@ Convert a task graph to a rooted tree (level sequence).
 - `Vector{Int}`: Level sequence representation
 """
 function taskgraph_to_tree(graph::TaskGraph)
-    # Compute task levels
-    levels = compute_task_levels(graph)
+    if isempty(graph.tasks)
+        return Int[]
+    end
     
-    # Sort by execution order and extract levels
-    topological_sort!(graph)
-    level_sequence = [levels[id] + 1 for id in graph.execution_order]
+    # Find root nodes (tasks with no dependencies)
+    roots = [id for (id, task) in graph.tasks if isempty(task.dependencies)]
+    
+    if isempty(roots)
+        # No root found - graph might have cycles or be empty
+        return ones(Int, length(graph.tasks))
+    end
+    
+    # Perform BFS to build level sequence
+    level_sequence = Int[]
+    visited = Set{Int}()
+    queue = [(roots[1], 1)]  # (task_id, level)
+    
+    while !isempty(queue)
+        task_id, level = popfirst!(queue)
+        
+        if task_id in visited
+            continue
+        end
+        push!(visited, task_id)
+        push!(level_sequence, level)
+        
+        # Find children (tasks that depend on this one)
+        for (child_id, child_task) in graph.tasks
+            if task_id in child_task.dependencies && !(child_id in visited)
+                push!(queue, (child_id, level + 1))
+            end
+        end
+    end
     
     return level_sequence
 end

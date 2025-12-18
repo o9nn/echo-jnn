@@ -9,6 +9,7 @@ module MembraneGarden
 
 using LinearAlgebra
 using Random
+using Statistics  # For mean function
 
 export Garden, TreePlanting, GrowthDynamics
 export create_garden, plant_tree!, grow_trees!, harvest_feedback!
