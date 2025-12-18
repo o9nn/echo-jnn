@@ -83,35 +83,31 @@ println("\n" * "="^68)
 println("BENCHMARK 2: B-Series Operations")
 println("="^68)
 
-if BSERIES_AVAILABLE || true  # Always run fallback benchmark
-    println("\nB-Series Evaluation:")
+println("\nB-Series Evaluation:")
+
+# Define simple ODE
+f(y) = -y
+y0 = [1.0]
+h = 0.1
+
+for order in [2, 3, 4]
+    tree = collect(1:order)  # Simple linear tree
     
-    # Define simple ODE
-    f(y) = -y
-    y0 = [1.0]
-    h = 0.1
+    stats = benchmark("B-series order $order evaluation", 
+                     () -> begin
+                         if BSERIES_AVAILABLE
+                             bseries = create_bseries_from_tree(tree, 1.0)
+                             evaluate_bseries(bseries, f, y0, h)
+                         end
+                     end, 50)
     
-    for order in [2, 3, 4]
-        tree = collect(1:order)  # Simple linear tree
-        
-        stats = benchmark("B-series order $order evaluation", 
-                         () -> begin
-                             if BSERIES_AVAILABLE
-                                 bseries = create_bseries_from_tree(tree, 1.0)
-                                 evaluate_bseries(bseries, f, y0, h)
-                             end
-                         end, 50)
-        
-        print_benchmark_result("Order $order", stats)
-    end
-    
-    if BSERIES_AVAILABLE
-        println("\n✓ Using BSeries.jl for optimal performance")
-    else
-        println("\n⚠ Using fallback implementation")
-    end
+    print_benchmark_result("Order $order", stats)
+end
+
+if BSERIES_AVAILABLE
+    println("\n✓ Using BSeries.jl for optimal performance")
 else
-    println("\n⚠ BSeries.jl not available - skipping B-series benchmarks")
+    println("\n⚠ Using fallback implementation")
 end
 
 println("\n" * "="^68)

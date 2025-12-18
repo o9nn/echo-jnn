@@ -341,8 +341,10 @@ function taskgraph_to_tree(graph::TaskGraph)
     roots = [id for (id, task) in graph.tasks if isempty(task.dependencies)]
     
     if isempty(roots)
-        # No root found - graph might have cycles or be empty
-        return ones(Int, length(graph.tasks))
+        # No root found - graph has cycles or no entry point
+        # Cannot represent as a tree
+        @warn "TaskGraph has no root nodes (may be cyclic) - cannot convert to tree"
+        return Int[]
     end
     
     # Perform BFS to build level sequence

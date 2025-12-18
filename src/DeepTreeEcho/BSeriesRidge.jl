@@ -187,8 +187,9 @@ function initialize_coefficients(trees::Vector{RootedTreeSimple}, method::Symbol
             elseif tree.order == 4
                 coeffs[i] = 1/24
             elseif tree.order >= 5
-                # Higher order terms (approximate)
-                coeffs[i] = 1/factorial(tree.order)
+                # Higher order terms (approximate, using safe computation)
+                # Avoid factorial overflow by using logarithms or precomputed values
+                coeffs[i] = tree.order <= 20 ? 1.0 / factorial(Float64(tree.order)) : 0.0
             end
         end
     else
