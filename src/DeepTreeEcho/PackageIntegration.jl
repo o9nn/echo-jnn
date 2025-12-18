@@ -50,7 +50,7 @@ end
 
 export convert_to_rooted_tree, convert_from_rooted_tree
 export create_bseries_from_tree, evaluate_bseries
-export create_esn_reservoir, train_esn!
+export create_esn_reservoir, train_esn!, predict_esn
 export integration_status
 export generate_trees_up_to_order, count_trees_of_order
 
