@@ -1,0 +1,314 @@
+/**
+ * ModelConfig.zpp
+ * Model configuration state and invariants for Echo-JNN
+ * Defines A000081-aligned parameters and cognitive architecture config
+ */
+
+import Types
+
+schema ModelConfig {
+  // ============================================================================
+  // A000081 DERIVED PARAMETERS
+  // ============================================================================
+  
+  /** Base order for A000081 parameter derivation */
+  base_order: Types.A000081Order
+  
+  /** Reservoir size: Σ A000081[1:base_order] */
+  reservoir_size: nat
+  
+  /** Maximum tree order for B-series expansion */
+  max_tree_order: nat
+  
+  /** Number of membranes: A000081[membrane_order] */
+  num_membranes: nat
+  
+  /** Membrane order for A000081 lookup */
+  membrane_order: Types.A000081Order
+  
+  /** Growth rate: A000081[base_order+1] / A000081[base_order] */
+  growth_rate: Types.Real
+  
+  /** Mutation rate: 1.0 / A000081[base_order] */
+  mutation_rate: Types.Probability
+  
+  /** Crossover rate: 1.0 - mutation_rate */
+  crossover_rate: Types.Probability
+  
+  // ============================================================================
+  // RESERVOIR PARAMETERS
+  // ============================================================================
+  
+  /** Spectral radius (< 1.0 for echo state property) */
+  spectral_radius: Types.SpectralRadius
+  
+  /** Connection sparsity [0.0..1.0] */
+  sparsity: Types.Sparsity
+  
+  /** Input scaling factor */
+  input_scaling: Types.Real
+  
+  /** Leak rate for leaky integration */
+  leak_rate: Types.LeakRate
+  
+  /** Ridge regression regularization parameter */
+  ridge_param: Types.Real
+  
+  // ============================================================================
+  // COGNITIVE LOOP PARAMETERS
+  // ============================================================================
+  
+  /** Number of concurrent streams (fixed: 3) */
+  num_streams: nat
+  
+  /** Cognitive cycle length (fixed: 12) */
+  cycle_length: nat
+  
+  /** Phase separation between streams (fixed: 4) */
+  phase_separation: nat
+  
+  /** Number of triads (fixed: 4) */
+  num_triads: nat
+  
+  /** Coupling strength between streams [0.0..1.0] */
+  coupling_strength: Types.Probability
+  
+  // ============================================================================
+  // NESTING STRUCTURE PARAMETERS
+  // ============================================================================
+  
+  /** Nest level 1 size (fixed: 1) */
+  nest_1_size: nat
+  
+  /** Nest level 2 size (fixed: 2) */
+  nest_2_size: nat
+  
+  /** Nest level 3 size (fixed: 4) */
+  nest_3_size: nat
+  
+  /** Nest level 4 size (fixed: 9) */
+  nest_4_size: nat
+  
+  // ============================================================================
+  // B-SERIES PARAMETERS
+  // ============================================================================
+  
+  /** Maximum B-series expansion order */
+  max_bseries_order: nat
+  
+  /** Number of elementary differentials */
+  num_elementary_diffs: nat
+  
+  // ============================================================================
+  // ENERGY AND FITNESS PARAMETERS
+  // ============================================================================
+  
+  /** Energy scale factor: A000081[base_order] */
+  energy_scale: Types.Real
+  
+  /** Fitness scale factor: 1.0 / energy_scale */
+  fitness_scale: Types.Real
+  
+  // ============================================================================
+  // MODEL ARCHITECTURE PARAMETERS
+  // ============================================================================
+  
+  /** Input dimension */
+  input_dim: nat
+  
+  /** Output dimension */
+  output_dim: nat
+  
+  /** Hidden dimension for processing layers */
+  hidden_dim: nat
+  
+  /** Number of processing layers */
+  num_layers: nat
+  
+  /** Dropout probability */
+  dropout: Types.Probability
+  
+  // ============================================================================
+  // INVARIANTS: A000081 ALIGNMENT
+  // ============================================================================
+  
+  /** Reservoir size must equal cumulative sum of A000081[1:base_order] */
+  axiom ReservoirSizeDerivation:
+    reservoir_size = sum(Types.A000081[1..base_order])
+  
+  /** Growth rate must be ratio of consecutive A000081 values */
+  axiom GrowthRateDerivation:
+    base_order < Types.MAX_A000081_ORDER ⇒
+      growth_rate = Types.A000081[base_order + 1] / Types.A000081[base_order]
+  
+  /** Mutation rate must be inverse of A000081[base_order] */
+  axiom MutationRateDerivation:
+    mutation_rate = 1.0 / Types.A000081[base_order]
+  
+  /** Crossover rate must be complementary to mutation rate */
+  axiom CrossoverRateDerivation:
+    crossover_rate = 1.0 - mutation_rate
+  
+  /** Number of membranes must equal A000081[membrane_order] */
+  axiom MembraneCountDerivation:
+    num_membranes = Types.A000081[membrane_order]
+  
+  /** Spectral radius derived from mutation rate */
+  axiom SpectralRadiusDerivation:
+    spectral_radius = min(1.0 - mutation_rate, 0.95)
+  
+  /** Sparsity derived from mutation rate */
+  axiom SparsityDerivation:
+    sparsity = clamp(mutation_rate * 2.0, 0.05, 0.5)
+  
+  /** Energy scale equals A000081[base_order] */
+  axiom EnergyScaleDerivation:
+    energy_scale = Types.A000081[base_order]
+  
+  /** Fitness scale is inverse of energy scale */
+  axiom FitnessScaleDerivation:
+    fitness_scale = 1.0 / energy_scale
+  
+  // ============================================================================
+  // INVARIANTS: COGNITIVE LOOP STRUCTURE
+  // ============================================================================
+  
+  /** Cognitive loop parameters must match constants */
+  axiom CognitiveLoopStructure:
+    num_streams = Types.NUM_STREAMS ∧
+    cycle_length = Types.CYCLE_LENGTH ∧
+    phase_separation = Types.PHASE_SEPARATION ∧
+    num_triads = Types.NUM_TRIADS
+  
+  /** Phase relationship must hold */
+  axiom PhaseRelationship:
+    num_streams * phase_separation = cycle_length
+  
+  /** Coupling strength must be valid probability */
+  axiom CouplingStrengthValid:
+    0.0 ≤ coupling_strength ≤ 1.0
+  
+  // ============================================================================
+  // INVARIANTS: NESTING STRUCTURE
+  // ============================================================================
+  
+  /** Nesting structure must match A000081 discipline */
+  axiom NestingStructure:
+    nest_1_size = Types.NEST_1_SIZE ∧
+    nest_2_size = Types.NEST_2_SIZE ∧
+    nest_3_size = Types.NEST_3_SIZE ∧
+    nest_4_size = Types.NEST_4_SIZE
+  
+  /** Total nested terms must equal 16 */
+  axiom TotalNestedTerms:
+    nest_1_size + nest_2_size + nest_3_size + nest_4_size = Types.TOTAL_NESTED_TERMS
+  
+  // ============================================================================
+  // INVARIANTS: B-SERIES
+  // ============================================================================
+  
+  /** B-series order must be reasonable */
+  axiom BSeriesOrderBounds:
+    max_bseries_order = base_order + 2
+  
+  /** Number of elementary differentials matches reservoir size */
+  axiom ElementaryDifferentialsCount:
+    num_elementary_diffs = reservoir_size
+  
+  // ============================================================================
+  // INVARIANTS: PARAMETER BOUNDS
+  // ============================================================================
+  
+  /** Spectral radius must be less than 1.0 for echo state property */
+  axiom SpectralRadiusBound:
+    0.0 ≤ spectral_radius < 1.0
+  
+  /** Sparsity must be valid */
+  axiom SparsityBound:
+    0.0 ≤ sparsity ≤ 1.0
+  
+  /** Leak rate must be valid */
+  axiom LeakRateBound:
+    0.0 ≤ leak_rate ≤ 1.0
+  
+  /** Ridge parameter must be positive */
+  axiom RidgeParamPositive:
+    ridge_param > 0.0
+  
+  /** Dropout must be valid probability */
+  axiom DropoutValid:
+    0.0 ≤ dropout ≤ 1.0
+  
+  /** Growth rate must be at least 1.0 */
+  axiom GrowthRateMinimum:
+    growth_rate ≥ 1.0
+  
+  // ============================================================================
+  // INVARIANTS: DIMENSION CONSISTENCY
+  // ============================================================================
+  
+  /** Input dimension must be positive */
+  axiom InputDimPositive:
+    input_dim > 0
+  
+  /** Output dimension must be positive */
+  axiom OutputDimPositive:
+    output_dim > 0
+  
+  /** Hidden dimension must be positive */
+  axiom HiddenDimPositive:
+    hidden_dim > 0
+  
+  /** Number of layers must be positive */
+  axiom NumLayersPositive:
+    num_layers > 0
+  
+  /** Reservoir size must be positive */
+  axiom ReservoirSizePositive:
+    reservoir_size > 0
+  
+  // ============================================================================
+  // HELPER FUNCTIONS
+  // ============================================================================
+  
+  /**
+   * Compute reservoir size for given base order
+   * @param order: base order for A000081
+   * @return: cumulative sum of A000081[1:order]
+   */
+  function compute_reservoir_size(order: Types.A000081Order) -> nat
+    requires 1 ≤ order ≤ Types.MAX_A000081_ORDER
+    ensures result = sum(Types.A000081[1..order])
+    ensures result > 0
+  
+  /**
+   * Compute growth rate for given base order
+   * @param order: base order for A000081
+   * @return: ratio A000081[order+1] / A000081[order]
+   */
+  function compute_growth_rate(order: Types.A000081Order) -> Types.Real
+    requires 1 ≤ order < Types.MAX_A000081_ORDER
+    ensures result ≥ 1.0
+  {
+    return Types.A000081[order + 1] / Types.A000081[order]
+  }
+  
+  /**
+   * Validate configuration consistency
+   * @return: true if all invariants hold
+   */
+  function validate_config() -> bool
+  {
+    return reservoir_size = compute_reservoir_size(base_order) ∧
+           num_streams = Types.NUM_STREAMS ∧
+           cycle_length = Types.CYCLE_LENGTH ∧
+           phase_separation = Types.PHASE_SEPARATION ∧
+           nest_1_size = Types.NEST_1_SIZE ∧
+           nest_2_size = Types.NEST_2_SIZE ∧
+           nest_3_size = Types.NEST_3_SIZE ∧
+           nest_4_size = Types.NEST_4_SIZE ∧
+           spectral_radius < 1.0 ∧
+           0.0 ≤ sparsity ≤ 1.0 ∧
+           0.0 ≤ leak_rate ≤ 1.0
+  }
+}

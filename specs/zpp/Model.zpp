@@ -1,0 +1,450 @@
+/**
+ * Model.zpp
+ * Parameter shapes and forward/sampling contracts for Echo-JNN
+ * Defines cognitive architecture model with A000081-aligned parameters
+ */
+
+import Types
+import ModelConfig
+
+schema Model {
+  // ============================================================================
+  // MODEL STATE
+  // ============================================================================
+  
+  /** Model configuration */
+  config: ModelConfig
+  
+  /** Current cognitive cycle step */
+  current_step: Types.StepNumber
+  
+  /** Current global time */
+  global_time: nat
+  
+  /** Model is trained flag */
+  is_trained: bool
+  
+  // ============================================================================
+  // RESERVOIR PARAMETERS
+  // ============================================================================
+  
+  /** Input weight matrix: reservoir_size × input_dim */
+  W_in: Types.DenseMatrix[config.reservoir_size, config.input_dim]
+  
+  /** Reservoir weight matrix: reservoir_size × reservoir_size (sparse) */
+  W_reservoir: Types.SparseMatrix[config.reservoir_size, config.reservoir_size]
+  
+  /** Output weight matrix: output_dim × reservoir_size */
+  W_out: Types.DenseMatrix[config.output_dim, config.reservoir_size]
+  
+  /** Reservoir state vector */
+  reservoir_state: vector[Types.Real, config.reservoir_size]
+  
+  /** Previous reservoir state (for leak) */
+  reservoir_state_prev: vector[Types.Real, config.reservoir_size]
+  
+  // ============================================================================
+  // COGNITIVE STREAM STATES
+  // ============================================================================
+  
+  /** Stream 1 state */
+  stream_1_perception: Types.PerceptionState
+  stream_1_action: Types.ActionState
+  stream_1_simulation: Types.SimulationState
+  stream_1_step: Types.StepNumber
+  
+  /** Stream 2 state */
+  stream_2_perception: Types.PerceptionState
+  stream_2_action: Types.ActionState
+  stream_2_simulation: Types.SimulationState
+  stream_2_step: Types.StepNumber
+  
+  /** Stream 3 state */
+  stream_3_perception: Types.PerceptionState
+  stream_3_action: Types.ActionState
+  stream_3_simulation: Types.SimulationState
+  stream_3_step: Types.StepNumber
+  
+  // ============================================================================
+  // NESTED SHELL STATES
+  // ============================================================================
+  
+  /** Nest level 1 state (1 term) */
+  nest_1_state: Types.Nest1Vector
+  
+  /** Nest level 2 state (2 terms) */
+  nest_2_state: Types.Nest2Vector
+  
+  /** Nest level 3 state (4 terms) */
+  nest_3_state: Types.Nest3Vector
+  
+  /** Nest level 4 state (9 terms) */
+  nest_4_state: Types.Nest4Vector
+  
+  // ============================================================================
+  // TRIAD STATES
+  // ============================================================================
+  
+  /** Triad 1 collective state {1, 5, 9} */
+  triad_1_state: vector[Types.Real, Types.TRIAD_SIZE]
+  
+  /** Triad 2 collective state {2, 6, 10} */
+  triad_2_state: vector[Types.Real, Types.TRIAD_SIZE]
+  
+  /** Triad 3 collective state {3, 7, 11} */
+  triad_3_state: vector[Types.Real, Types.TRIAD_SIZE]
+  
+  /** Triad 4 collective state {4, 8, 12} */
+  triad_4_state: vector[Types.Real, Types.TRIAD_SIZE]
+  
+  // ============================================================================
+  // SYSTEM-LEVEL STATE
+  // ============================================================================
+  
+  /** Collective energy across all streams */
+  collective_energy: Types.Real
+  
+  /** System coherence measure [0.0..1.0] */
+  coherence: Types.Probability
+  
+  /** Coupling strength between streams */
+  coupling_strength: Types.Probability
+  
+  // ============================================================================
+  // INVARIANTS: STREAM PHASING
+  // ============================================================================
+  
+  /** Streams must be phased 4 steps apart (120 degrees) */
+  axiom StreamPhasing:
+    (stream_2_step - stream_1_step) mod Types.CYCLE_LENGTH = Types.PHASE_SEPARATION ∧
+    (stream_3_step - stream_2_step) mod Types.CYCLE_LENGTH = Types.PHASE_SEPARATION ∧
+    (stream_1_step - stream_3_step) mod Types.CYCLE_LENGTH = Types.PHASE_SEPARATION
+  
+  /** All stream steps must be in valid range */
+  axiom StreamStepsValid:
+    1 ≤ stream_1_step ≤ Types.CYCLE_LENGTH ∧
+    1 ≤ stream_2_step ≤ Types.CYCLE_LENGTH ∧
+    1 ≤ stream_3_step ≤ Types.CYCLE_LENGTH
+  
+  // ============================================================================
+  // INVARIANTS: STATE DIMENSIONS
+  // ============================================================================
+  
+  /** Perception states must be 4-dimensional */
+  axiom PerceptionDimensions:
+    |stream_1_perception| = 4 ∧
+    |stream_2_perception| = 4 ∧
+    |stream_3_perception| = 4
+  
+  /** Action states must be 4-dimensional */
+  axiom ActionDimensions:
+    |stream_1_action| = 4 ∧
+    |stream_2_action| = 4 ∧
+    |stream_3_action| = 4
+  
+  /** Simulation states must be 9-dimensional */
+  axiom SimulationDimensions:
+    |stream_1_simulation| = 9 ∧
+    |stream_2_simulation| = 9 ∧
+    |stream_3_simulation| = 9
+  
+  /** Nested shell dimensions must match A000081 */
+  axiom NestedShellDimensions:
+    |nest_1_state| = Types.NEST_1_SIZE ∧
+    |nest_2_state| = Types.NEST_2_SIZE ∧
+    |nest_3_state| = Types.NEST_3_SIZE ∧
+    |nest_4_state| = Types.NEST_4_SIZE
+  
+  /** Triad states must have 3 elements each */
+  axiom TriadDimensions:
+    |triad_1_state| = Types.TRIAD_SIZE ∧
+    |triad_2_state| = Types.TRIAD_SIZE ∧
+    |triad_3_state| = Types.TRIAD_SIZE ∧
+    |triad_4_state| = Types.TRIAD_SIZE
+  
+  // ============================================================================
+  // INVARIANTS: PARAMETER SHAPES
+  // ============================================================================
+  
+  /** Input weight matrix shape */
+  axiom InputWeightShape:
+    shape(W_in) = (config.reservoir_size, config.input_dim)
+  
+  /** Reservoir weight matrix shape */
+  axiom ReservoirWeightShape:
+    shape(W_reservoir) = (config.reservoir_size, config.reservoir_size)
+  
+  /** Output weight matrix shape */
+  axiom OutputWeightShape:
+    shape(W_out) = (config.output_dim, config.reservoir_size)
+  
+  /** Reservoir state vector length */
+  axiom ReservoirStateLength:
+    |reservoir_state| = config.reservoir_size ∧
+    |reservoir_state_prev| = config.reservoir_size
+  
+  // ============================================================================
+  // FORWARD PASS
+  // ============================================================================
+  
+  /**
+   * Forward pass through reservoir
+   * @param input: input vector
+   * @return: reservoir state after update
+   */
+  function forward_reservoir(input: vector[Types.Real, config.input_dim]) 
+    -> vector[Types.Real, config.reservoir_size]
+    requires |input| = config.input_dim
+    ensures |result| = config.reservoir_size
+    modifies reservoir_state, reservoir_state_prev
+  {
+    // Store previous state
+    reservoir_state_prev := reservoir_state;
+    
+    // Compute: x(t+1) = (1-α)x(t) + α·tanh(W·x(t) + W_in·u(t))
+    let pre_activation = W_reservoir * reservoir_state_prev + W_in * input;
+    let activation = tanh(pre_activation);
+    
+    // Leaky integration
+    reservoir_state := (1.0 - config.leak_rate) * reservoir_state_prev + 
+                       config.leak_rate * activation;
+    
+    return reservoir_state
+  }
+  
+  /**
+   * Compute output from current reservoir state
+   * @return: output vector
+   */
+  function compute_output() -> vector[Types.Real, config.output_dim]
+    requires is_trained
+    ensures |result| = config.output_dim
+  {
+    return W_out * reservoir_state
+  }
+  
+  /**
+   * Full forward pass: input -> reservoir -> output
+   * @param input: input vector
+   * @return: output vector
+   */
+  function forward(input: vector[Types.Real, config.input_dim]) 
+    -> vector[Types.Real, config.output_dim]
+    requires |input| = config.input_dim
+    requires is_trained
+    ensures |result| = config.output_dim
+    modifies reservoir_state, reservoir_state_prev
+  {
+    let _ = forward_reservoir(input);
+    return compute_output()
+  }
+  
+  // ============================================================================
+  // COGNITIVE STREAM UPDATES
+  // ============================================================================
+  
+  /**
+   * Update a single cognitive stream
+   * @param stream_id: which stream to update [1..3]
+   * @param input: input to the stream
+   * @return: updated (perception, action, simulation) states
+   */
+  function update_stream(
+    stream_id: Types.StreamID,
+    input: vector[Types.Real, config.input_dim]
+  ) -> (Types.PerceptionState, Types.ActionState, Types.SimulationState)
+    requires 1 ≤ stream_id ≤ Types.NUM_STREAMS
+    requires |input| = config.input_dim
+    ensures let (p, a, s) = result in |p| = 4 ∧ |a| = 4 ∧ |s| = 9
+    modifies stream_1_perception, stream_1_action, stream_1_simulation, stream_1_step,
+             stream_2_perception, stream_2_action, stream_2_simulation, stream_2_step,
+             stream_3_perception, stream_3_action, stream_3_simulation, stream_3_step,
+             current_step, global_time
+  
+  /**
+   * Update all three cognitive streams concurrently
+   * @param inputs: input vectors for all three streams
+   * @return: updated states for all streams
+   */
+  function update_all_streams(
+    inputs: seq[vector[Types.Real, config.input_dim]]
+  ) -> seq[(Types.PerceptionState, Types.ActionState, Types.SimulationState)]
+    requires |inputs| = Types.NUM_STREAMS
+    requires ∀ inp ∈ inputs. |inp| = config.input_dim
+    ensures |result| = Types.NUM_STREAMS
+    ensures ∀ (p, a, s) ∈ result. |p| = 4 ∧ |a| = 4 ∧ |s| = 9
+    modifies stream_1_perception, stream_1_action, stream_1_simulation, stream_1_step,
+             stream_2_perception, stream_2_action, stream_2_simulation, stream_2_step,
+             stream_3_perception, stream_3_action, stream_3_simulation, stream_3_step,
+             current_step, global_time
+  {
+    let states = [];
+    for i in 1..Types.NUM_STREAMS {
+      let state = update_stream(i, inputs[i-1]);
+      states = states ++ [state];
+    }
+    return states
+  }
+  
+  // ============================================================================
+  // NESTED SHELL UPDATES
+  // ============================================================================
+  
+  /**
+   * Update nested shell structure from stream states
+   * Follows A000081 discipline: 1 -> 2 -> 4 -> 9 terms
+   */
+  function update_nested_shells()
+    modifies nest_1_state, nest_2_state, nest_3_state, nest_4_state
+  {
+    // Nest 1: Global summary (1 term)
+    nest_1_state[0] := mean([stream_1_perception, stream_2_perception, stream_3_perception]);
+    
+    // Nest 2: Coarse features (2 terms)
+    nest_2_state[0] := mean([stream_1_perception[0..2], stream_2_perception[0..2]]);
+    nest_2_state[1] := mean([stream_1_perception[2..4], stream_2_perception[2..4]]);
+    
+    // Nest 3: Medium features (4 terms) - from stream 1
+    nest_3_state := stream_1_perception;
+    
+    // Nest 4: Fine features (9 terms) - from simulation
+    nest_4_state := stream_1_simulation;
+  }
+  
+  // ============================================================================
+  // TRIAD UPDATES
+  // ============================================================================
+  
+  /**
+   * Update triad states based on current stream positions
+   * Triads: {1,5,9}, {2,6,10}, {3,7,11}, {4,8,12}
+   */
+  function update_triads()
+    modifies triad_1_state, triad_2_state, triad_3_state, triad_4_state
+  {
+    // Determine which triad each stream belongs to
+    let triad_1_id = (stream_1_step - 1) mod 4 + 1;
+    let triad_2_id = (stream_2_step - 1) mod 4 + 1;
+    let triad_3_id = (stream_3_step - 1) mod 4 + 1;
+    
+    // Update corresponding triad states
+    if triad_1_id = 1 then triad_1_state[0] := norm(stream_1_perception);
+    if triad_2_id = 1 then triad_1_state[1] := norm(stream_2_perception);
+    if triad_3_id = 1 then triad_1_state[2] := norm(stream_3_perception);
+    
+    // Similar for other triads...
+  }
+  
+  // ============================================================================
+  // SYSTEM-LEVEL UPDATES
+  // ============================================================================
+  
+  /**
+   * Update collective energy from all streams
+   */
+  function update_collective_energy()
+    modifies collective_energy
+  {
+    let e1 = dot(stream_1_perception, stream_2_perception);
+    let e2 = dot(stream_2_perception, stream_3_perception);
+    let e3 = dot(stream_3_perception, stream_1_perception);
+    collective_energy := abs(e1) + abs(e2) + abs(e3);
+  }
+  
+  /**
+   * Update system coherence (phase synchronization measure)
+   */
+  function update_coherence()
+    modifies coherence
+  {
+    // Measure deviation from ideal 120-degree phasing
+    let expected_phases = [1, 5, 9];
+    let actual_phases = [stream_1_step, stream_2_step, stream_3_step];
+    let deviations = [
+      (actual_phases[0] - expected_phases[0]) mod Types.CYCLE_LENGTH,
+      (actual_phases[1] - expected_phases[1]) mod Types.CYCLE_LENGTH,
+      (actual_phases[2] - expected_phases[2]) mod Types.CYCLE_LENGTH
+    ];
+    let total_deviation = sum(map(abs, deviations));
+    coherence := 1.0 / (1.0 + total_deviation);
+  }
+  
+  /**
+   * Full system update: streams + shells + triads + energy + coherence
+   * @param inputs: input vectors for all streams
+   */
+  function update_system(inputs: seq[vector[Types.Real, config.input_dim]])
+    requires |inputs| = Types.NUM_STREAMS
+    requires ∀ inp ∈ inputs. |inp| = config.input_dim
+    modifies stream_1_perception, stream_1_action, stream_1_simulation, stream_1_step,
+             stream_2_perception, stream_2_action, stream_2_simulation, stream_2_step,
+             stream_3_perception, stream_3_action, stream_3_simulation, stream_3_step,
+             nest_1_state, nest_2_state, nest_3_state, nest_4_state,
+             triad_1_state, triad_2_state, triad_3_state, triad_4_state,
+             collective_energy, coherence,
+             current_step, global_time
+  {
+    let _ = update_all_streams(inputs);
+    update_nested_shells();
+    update_triads();
+    update_collective_energy();
+    update_coherence();
+    global_time := global_time + 1;
+  }
+  
+  // ============================================================================
+  // SAMPLING
+  // ============================================================================
+  
+  /**
+   * Sample next cognitive state given current state
+   * @param temperature: sampling temperature [0.0..∞)
+   * @return: sampled next state
+   */
+  function sample_next_state(temperature: Types.Real) 
+    -> (Types.PerceptionState, Types.ActionState, Types.SimulationState)
+    requires temperature > 0.0
+    requires is_trained
+    ensures let (p, a, s) = result in |p| = 4 ∧ |a| = 4 ∧ |s| = 9
+  
+  /**
+   * Generate a sequence of cognitive states
+   * @param initial_input: starting input
+   * @param num_steps: number of steps to generate
+   * @param temperature: sampling temperature
+   * @return: sequence of generated states
+   */
+  function generate_sequence(
+    initial_input: vector[Types.Real, config.input_dim],
+    num_steps: nat,
+    temperature: Types.Real
+  ) -> seq[(Types.PerceptionState, Types.ActionState, Types.SimulationState)]
+    requires |initial_input| = config.input_dim
+    requires temperature > 0.0
+    requires is_trained
+    requires num_steps > 0
+    ensures |result| = num_steps
+    ensures ∀ (p, a, s) ∈ result. |p| = 4 ∧ |a| = 4 ∧ |s| = 9
+  
+  // ============================================================================
+  // TRAINING
+  // ============================================================================
+  
+  /**
+   * Train the model using ridge regression
+   * @param input_sequence: training inputs
+   * @param target_sequence: training targets
+   * @param washout: number of initial steps to discard
+   */
+  function train(
+    input_sequence: seq[vector[Types.Real, config.input_dim]],
+    target_sequence: seq[vector[Types.Real, config.output_dim]],
+    washout: nat
+  )
+    requires |input_sequence| = |target_sequence|
+    requires |input_sequence| > washout
+    requires ∀ inp ∈ input_sequence. |inp| = config.input_dim
+    requires ∀ tgt ∈ target_sequence. |tgt| = config.output_dim
+    ensures is_trained
+    modifies W_out, is_trained
+}

@@ -1,0 +1,305 @@
+/**
+ * Tokenizer.zpp
+ * Tokenization and detokenization contracts for Echo-JNN
+ * Handles cognitive state serialization with A000081 alignment
+ */
+
+import Types
+import TokenizerConfig
+
+schema Tokenizer {
+  // ============================================================================
+  // STATE
+  // ============================================================================
+  
+  /** Tokenizer configuration */
+  config: TokenizerConfig
+  
+  /** Vocabulary mapping: token -> string */
+  vocab: map[nat, string]
+  
+  /** Inverse vocabulary: string -> token */
+  inverse_vocab: map[string, nat]
+  
+  /** Special tokens registry */
+  special_tokens: set[nat]
+  
+  // ============================================================================
+  // INVARIANTS
+  // ============================================================================
+  
+  /** Vocabulary and inverse vocabulary must be consistent */
+  axiom VocabConsistency:
+    ∀ token ∈ dom(vocab). inverse_vocab[vocab[token]] = token ∧
+    ∀ text ∈ dom(inverse_vocab). vocab[inverse_vocab[text]] = text
+  
+  /** Vocabulary size must match config */
+  axiom VocabSize:
+    |dom(vocab)| = config.vocab_size ∧
+    |dom(inverse_vocab)| = config.vocab_size
+  
+  /** Special tokens must be in vocabulary */
+  axiom SpecialTokensInVocab:
+    special_tokens ⊆ dom(vocab) ∧
+    config.pad_token_id ∈ special_tokens ∧
+    config.bos_token_id ∈ special_tokens ∧
+    config.eos_token_id ∈ special_tokens ∧
+    config.unk_token_id ∈ special_tokens
+  
+  // ============================================================================
+  // COGNITIVE STATE TOKENIZATION
+  // ============================================================================
+  
+  /**
+   * Tokenize a complete cognitive stream state
+   * @param stream_id: stream identifier [1..3]
+   * @param step: current step [1..12]
+   * @param perception: perception state (4D)
+   * @param action: action state (4D)
+   * @param simulation: simulation state (9D)
+   * @return: token sequence representing the cognitive state
+   */
+  function tokenize_cognitive_state(
+    stream_id: Types.StreamID,
+    step: Types.StepNumber,
+    perception: Types.PerceptionState,
+    action: Types.ActionState,
+    simulation: Types.SimulationState
+  ) -> seq[nat]
+    requires 1 ≤ stream_id ≤ Types.NUM_STREAMS
+    requires 1 ≤ step ≤ Types.CYCLE_LENGTH
+    requires |perception| = 4
+    requires |action| = 4
+    requires |simulation| = 9
+    ensures |result| = config.tokens_per_snapshot
+    ensures result[0] = config.bos_token_id
+    ensures result[|result| - 1] = config.eos_token_id
+    ensures ∀ t ∈ result. t < config.vocab_size
+  {
+    return config.encode_snapshot(perception, action, simulation, stream_id, step)
+  }
+  
+  /**
+   * Detokenize back to cognitive state
+   * @param tokens: token sequence
+   * @return: tuple of (stream_id, step, perception, action, simulation)
+   */
+  function detokenize_cognitive_state(tokens: seq[nat]) -> (
+    Types.StreamID,
+    Types.StepNumber,
+    Types.PerceptionState,
+    Types.ActionState,
+    Types.SimulationState
+  )
+    requires |tokens| = config.tokens_per_snapshot
+    requires tokens[0] = config.bos_token_id
+    requires tokens[|tokens| - 1] = config.eos_token_id
+    requires ∀ t ∈ tokens. t < config.vocab_size
+    ensures let (sid, stp, p, a, s) = result in
+      1 ≤ sid ≤ Types.NUM_STREAMS ∧
+      1 ≤ stp ≤ Types.CYCLE_LENGTH ∧
+      |p| = 4 ∧
+      |a| = 4 ∧
+      |s| = 9
+  {
+    return config.decode_snapshot(tokens)
+  }
+  
+  /**
+   * Tokenize a complete cognitive cycle (all streams, all steps)
+   * @param states: sequence of cognitive states for all streams
+   * @return: token sequence for entire cycle
+   */
+  function tokenize_cognitive_cycle(
+    states: seq[(Types.StreamID, Types.StepNumber, 
+                 Types.PerceptionState, Types.ActionState, Types.SimulationState)]
+  ) -> seq[nat]
+    requires |states| = Types.NUM_STREAMS * Types.CYCLE_LENGTH
+    requires ∀ (sid, stp, p, a, s) ∈ states.
+      1 ≤ sid ≤ Types.NUM_STREAMS ∧
+      1 ≤ stp ≤ Types.CYCLE_LENGTH ∧
+      |p| = 4 ∧ |a| = 4 ∧ |s| = 9
+    ensures |result| = config.tokens_per_snapshot * Types.NUM_STREAMS * Types.CYCLE_LENGTH
+    ensures ∀ t ∈ result. t < config.vocab_size
+  {
+    let tokens = [];
+    for (sid, stp, p, a, s) in states {
+      tokens = tokens ++ tokenize_cognitive_state(sid, stp, p, a, s);
+    }
+    return tokens
+  }
+  
+  /**
+   * Detokenize a complete cognitive cycle
+   * @param tokens: token sequence for entire cycle
+   * @return: sequence of cognitive states
+   */
+  function detokenize_cognitive_cycle(tokens: seq[nat]) -> seq[(
+    Types.StreamID,
+    Types.StepNumber,
+    Types.PerceptionState,
+    Types.ActionState,
+    Types.SimulationState
+  )]
+    requires |tokens| = config.tokens_per_snapshot * Types.NUM_STREAMS * Types.CYCLE_LENGTH
+    requires ∀ t ∈ tokens. t < config.vocab_size
+    ensures |result| = Types.NUM_STREAMS * Types.CYCLE_LENGTH
+  {
+    let states = [];
+    let i = 0;
+    while i < |tokens| {
+      let snapshot_tokens = tokens[i..i + config.tokens_per_snapshot];
+      let state = detokenize_cognitive_state(snapshot_tokens);
+      states = states ++ [state];
+      i = i + config.tokens_per_snapshot;
+    }
+    return states
+  }
+  
+  // ============================================================================
+  // NESTED SHELL TOKENIZATION
+  // ============================================================================
+  
+  /**
+   * Tokenize nested shell structure (1, 2, 4, 9 terms)
+   * @param nest1: nest level 1 (1 term)
+   * @param nest2: nest level 2 (2 terms)
+   * @param nest3: nest level 3 (4 terms)
+   * @param nest4: nest level 4 (9 terms)
+   * @return: token sequence for nested structure
+   */
+  function tokenize_nested_shells(
+    nest1: Types.Nest1Vector,
+    nest2: Types.Nest2Vector,
+    nest3: Types.Nest3Vector,
+    nest4: Types.Nest4Vector
+  ) -> seq[nat]
+    requires |nest1| = Types.NEST_1_SIZE
+    requires |nest2| = Types.NEST_2_SIZE
+    requires |nest3| = Types.NEST_3_SIZE
+    requires |nest4| = Types.NEST_4_SIZE
+    ensures |result| = Types.TOTAL_NESTED_TERMS
+    ensures ∀ t ∈ result. t < config.vocab_size
+  
+  /**
+   * Detokenize nested shell structure
+   * @param tokens: token sequence
+   * @return: tuple of (nest1, nest2, nest3, nest4)
+   */
+  function detokenize_nested_shells(tokens: seq[nat]) -> (
+    Types.Nest1Vector,
+    Types.Nest2Vector,
+    Types.Nest3Vector,
+    Types.Nest4Vector
+  )
+    requires |tokens| = Types.TOTAL_NESTED_TERMS
+    requires ∀ t ∈ tokens. t < config.vocab_size
+    ensures let (n1, n2, n3, n4) = result in
+      |n1| = Types.NEST_1_SIZE ∧
+      |n2| = Types.NEST_2_SIZE ∧
+      |n3| = Types.NEST_3_SIZE ∧
+      |n4| = Types.NEST_4_SIZE
+  
+  // ============================================================================
+  // TRIAD TOKENIZATION
+  // ============================================================================
+  
+  /**
+   * Tokenize triad state (3 stream states at same relative position)
+   * @param states: 3 cognitive states forming a triad
+   * @return: token sequence for triad
+   */
+  function tokenize_triad(
+    states: seq[(Types.StreamID, Types.StepNumber,
+                 Types.PerceptionState, Types.ActionState, Types.SimulationState)]
+  ) -> seq[nat]
+    requires |states| = Types.TRIAD_SIZE
+    requires ∀ (sid, stp, p, a, s) ∈ states.
+      1 ≤ sid ≤ Types.NUM_STREAMS ∧
+      1 ≤ stp ≤ Types.CYCLE_LENGTH ∧
+      |p| = 4 ∧ |a| = 4 ∧ |s| = 9
+    ensures |result| = config.tokens_per_snapshot * Types.TRIAD_SIZE
+    ensures ∀ t ∈ result. t < config.vocab_size
+  
+  // ============================================================================
+  // PADDING AND TRUNCATION
+  // ============================================================================
+  
+  /**
+   * Pad token sequence to maximum length
+   * @param tokens: input token sequence
+   * @return: padded token sequence
+   */
+  function pad_tokens(tokens: seq[nat]) -> seq[nat]
+    requires ∀ t ∈ tokens. t < config.vocab_size
+    requires |tokens| ≤ config.max_length
+    ensures |result| = config.max_length
+    ensures ∀ i. i < |tokens| ⇒ result[i] = tokens[i]
+    ensures ∀ i. i ≥ |tokens| ⇒ result[i] = config.pad_token_id
+  {
+    let padded = tokens;
+    while |padded| < config.max_length {
+      padded = padded ++ [config.pad_token_id];
+    }
+    return padded
+  }
+  
+  /**
+   * Truncate token sequence to maximum length
+   * @param tokens: input token sequence
+   * @return: truncated token sequence
+   */
+  function truncate_tokens(tokens: seq[nat]) -> seq[nat]
+    requires ∀ t ∈ tokens. t < config.vocab_size
+    ensures |result| = min(|tokens|, config.max_length)
+    ensures ∀ i. i < |result| ⇒ result[i] = tokens[i]
+  {
+    if |tokens| ≤ config.max_length {
+      return tokens
+    } else {
+      return tokens[0..config.max_length]
+    }
+  }
+  
+  /**
+   * Remove padding from token sequence
+   * @param tokens: padded token sequence
+   * @return: unpadded token sequence
+   */
+  function remove_padding(tokens: seq[nat]) -> seq[nat]
+    requires ∀ t ∈ tokens. t < config.vocab_size
+    ensures ∀ t ∈ result. t ≠ config.pad_token_id
+    ensures |result| ≤ |tokens|
+  {
+    let unpadded = [];
+    for t in tokens {
+      if t ≠ config.pad_token_id {
+        unpadded = unpadded ++ [t];
+      }
+    }
+    return unpadded
+  }
+  
+  // ============================================================================
+  // ROUNDTRIP PROPERTIES
+  // ============================================================================
+  
+  /**
+   * Tokenization and detokenization are inverse operations
+   */
+  axiom RoundtripProperty:
+    ∀ sid: Types.StreamID, stp: Types.StepNumber,
+      p: Types.PerceptionState, a: Types.ActionState, s: Types.SimulationState.
+      let tokens = tokenize_cognitive_state(sid, stp, p, a, s) in
+      let (sid', stp', p', a', s') = detokenize_cognitive_state(tokens) in
+        sid' = sid ∧ stp' = stp ∧ p' = p ∧ a' = a ∧ s' = s
+  
+  /**
+   * Padding and unpadding preserve original tokens
+   */
+  axiom PaddingRoundtrip:
+    ∀ tokens: seq[nat].
+      |tokens| ≤ config.max_length ∧
+      (∀ t ∈ tokens. t ≠ config.pad_token_id) ⇒
+        remove_padding(pad_tokens(tokens)) = tokens
+}

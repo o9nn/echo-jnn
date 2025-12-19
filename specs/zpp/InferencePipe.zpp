@@ -1,0 +1,473 @@
+/**
+ * InferencePipe.zpp
+ * End-to-end generation contract for Echo-JNN inference pipeline
+ * Integrates tokenization, model forward pass, and sampling
+ */
+
+import Types
+import TokenizerConfig
+import ModelConfig
+import Tokenizer
+import Model
+
+schema InferencePipe {
+  // ============================================================================
+  // PIPELINE COMPONENTS
+  // ============================================================================
+  
+  /** Tokenizer for cognitive state encoding/decoding */
+  tokenizer: Tokenizer
+  
+  /** Cognitive model */
+  model: Model
+  
+  /** Pipeline is initialized flag */
+  is_initialized: bool
+  
+  /** Pipeline is ready for inference */
+  is_ready: bool
+  
+  // ============================================================================
+  // GENERATION PARAMETERS
+  // ============================================================================
+  
+  /** Maximum number of steps to generate */
+  max_generation_steps: nat
+  
+  /** Sampling temperature */
+  temperature: Types.Real
+  
+  /** Top-k sampling parameter */
+  top_k: nat
+  
+  /** Top-p (nucleus) sampling parameter */
+  top_p: Types.Probability
+  
+  /** Repetition penalty */
+  repetition_penalty: Types.Real
+  
+  // ============================================================================
+  // INVARIANTS
+  // ============================================================================
+  
+  /** Pipeline must be initialized before use */
+  axiom InitializationRequired:
+    is_ready ⇒ is_initialized ∧ model.is_trained
+  
+  /** Temperature must be positive */
+  axiom TemperaturePositive:
+    temperature > 0.0
+  
+  /** Top-k must be reasonable */
+  axiom TopKBounds:
+    top_k > 0 ∧ top_k ≤ tokenizer.config.vocab_size
+  
+  /** Top-p must be valid probability */
+  axiom TopPValid:
+    0.0 < top_p ≤ 1.0
+  
+  /** Repetition penalty must be positive */
+  axiom RepetitionPenaltyPositive:
+    repetition_penalty > 0.0
+  
+  /** Max generation steps must be reasonable */
+  axiom MaxGenerationStepsValid:
+    max_generation_steps > 0 ∧
+    max_generation_steps ≤ tokenizer.config.max_length
+  
+  // ============================================================================
+  // INITIALIZATION
+  // ============================================================================
+  
+  /**
+   * Initialize the inference pipeline
+   * @param model_config: model configuration
+   * @param tokenizer_config: tokenizer configuration
+   */
+  function initialize(
+    model_config: ModelConfig,
+    tokenizer_config: TokenizerConfig
+  )
+    ensures is_initialized
+    ensures model.config = model_config
+    ensures tokenizer.config = tokenizer_config
+    modifies is_initialized, model, tokenizer
+  
+  /**
+   * Load trained model weights
+   * @param weights_path: path to model weights
+   */
+  function load_weights(weights_path: string)
+    requires is_initialized
+    ensures model.is_trained
+    ensures is_ready
+    modifies model.W_in, model.W_reservoir, model.W_out, model.is_trained, is_ready
+  
+  // ============================================================================
+  // PREPROCESSING
+  // ============================================================================
+  
+  /**
+   * Preprocess input cognitive state for model
+   * @param stream_id: stream identifier
+   * @param step: current step
+   * @param perception: perception state
+   * @param action: action state
+   * @param simulation: simulation state
+   * @return: tokenized input ready for model
+   */
+  function preprocess_cognitive_state(
+    stream_id: Types.StreamID,
+    step: Types.StepNumber,
+    perception: Types.PerceptionState,
+    action: Types.ActionState,
+    simulation: Types.SimulationState
+  ) -> seq[nat]
+    requires is_initialized
+    requires 1 ≤ stream_id ≤ Types.NUM_STREAMS
+    requires 1 ≤ step ≤ Types.CYCLE_LENGTH
+    requires |perception| = 4
+    requires |action| = 4
+    requires |simulation| = 9
+    ensures |result| = tokenizer.config.tokens_per_snapshot
+    ensures ∀ t ∈ result. t < tokenizer.config.vocab_size
+  {
+    return tokenizer.tokenize_cognitive_state(stream_id, step, perception, action, simulation)
+  }
+  
+  /**
+   * Preprocess a complete cognitive cycle
+   * @param cycle_states: all states in the cycle
+   * @return: tokenized cycle
+   */
+  function preprocess_cognitive_cycle(
+    cycle_states: seq[(Types.StreamID, Types.StepNumber,
+                       Types.PerceptionState, Types.ActionState, Types.SimulationState)]
+  ) -> seq[nat]
+    requires is_initialized
+    requires |cycle_states| = Types.NUM_STREAMS * Types.CYCLE_LENGTH
+    ensures |result| = tokenizer.config.tokens_per_snapshot * Types.NUM_STREAMS * Types.CYCLE_LENGTH
+    ensures ∀ t ∈ result. t < tokenizer.config.vocab_size
+  {
+    return tokenizer.tokenize_cognitive_cycle(cycle_states)
+  }
+  
+  // ============================================================================
+  // POSTPROCESSING
+  // ============================================================================
+  
+  /**
+   * Postprocess model output to cognitive state
+   * @param tokens: output tokens from model
+   * @return: decoded cognitive state
+   */
+  function postprocess_to_cognitive_state(tokens: seq[nat]) -> (
+    Types.StreamID,
+    Types.StepNumber,
+    Types.PerceptionState,
+    Types.ActionState,
+    Types.SimulationState
+  )
+    requires is_initialized
+    requires |tokens| = tokenizer.config.tokens_per_snapshot
+    requires ∀ t ∈ tokens. t < tokenizer.config.vocab_size
+    ensures let (sid, stp, p, a, s) = result in
+      1 ≤ sid ≤ Types.NUM_STREAMS ∧
+      1 ≤ stp ≤ Types.CYCLE_LENGTH ∧
+      |p| = 4 ∧ |a| = 4 ∧ |s| = 9
+  {
+    return tokenizer.detokenize_cognitive_state(tokens)
+  }
+  
+  // ============================================================================
+  // SAMPLING STRATEGIES
+  // ============================================================================
+  
+  /**
+   * Apply temperature scaling to logits
+   * @param logits: raw model output logits
+   * @param temp: temperature parameter
+   * @return: temperature-scaled logits
+   */
+  function apply_temperature(logits: vector[Types.Real, *], temp: Types.Real) 
+    -> vector[Types.Real, *]
+    requires temp > 0.0
+    ensures |result| = |logits|
+  {
+    return logits / temp
+  }
+  
+  /**
+   * Top-k sampling: keep only top k logits
+   * @param logits: input logits
+   * @param k: number of top elements to keep
+   * @return: filtered logits
+   */
+  function apply_top_k(logits: vector[Types.Real, *], k: nat) 
+    -> vector[Types.Real, *]
+    requires k > 0
+    requires k ≤ |logits|
+    ensures |result| = |logits|
+  
+  /**
+   * Top-p (nucleus) sampling: keep top p probability mass
+   * @param logits: input logits
+   * @param p: cumulative probability threshold
+   * @return: filtered logits
+   */
+  function apply_top_p(logits: vector[Types.Real, *], p: Types.Probability) 
+    -> vector[Types.Real, *]
+    requires 0.0 < p ≤ 1.0
+    ensures |result| = |logits|
+  
+  /**
+   * Apply repetition penalty to discourage repeated tokens
+   * @param logits: input logits
+   * @param generated_tokens: previously generated tokens
+   * @param penalty: repetition penalty factor
+   * @return: penalized logits
+   */
+  function apply_repetition_penalty(
+    logits: vector[Types.Real, *],
+    generated_tokens: seq[nat],
+    penalty: Types.Real
+  ) -> vector[Types.Real, *]
+    requires penalty > 0.0
+    ensures |result| = |logits|
+  
+  /**
+   * Sample token from probability distribution
+   * @param logits: input logits
+   * @return: sampled token ID
+   */
+  function sample_token(logits: vector[Types.Real, *]) -> nat
+    requires |logits| > 0
+    ensures result < |logits|
+  
+  // ============================================================================
+  // GENERATION PIPELINE
+  // ============================================================================
+  
+  /**
+   * Generate next cognitive state given current state
+   * @param current_state: current cognitive state
+   * @return: next predicted cognitive state
+   */
+  function generate_next_state(
+    current_state: (Types.StreamID, Types.StepNumber,
+                    Types.PerceptionState, Types.ActionState, Types.SimulationState)
+  ) -> (Types.StreamID, Types.StepNumber,
+        Types.PerceptionState, Types.ActionState, Types.SimulationState)
+    requires is_ready
+    requires let (sid, stp, p, a, s) = current_state in
+      1 ≤ sid ≤ Types.NUM_STREAMS ∧
+      1 ≤ stp ≤ Types.CYCLE_LENGTH ∧
+      |p| = 4 ∧ |a| = 4 ∧ |s| = 9
+    ensures let (sid, stp, p, a, s) = result in
+      1 ≤ sid ≤ Types.NUM_STREAMS ∧
+      1 ≤ stp ≤ Types.CYCLE_LENGTH ∧
+      |p| = 4 ∧ |a| = 4 ∧ |s| = 9
+  {
+    // Tokenize current state
+    let (sid, stp, p, a, s) = current_state;
+    let input_tokens = preprocess_cognitive_state(sid, stp, p, a, s);
+    
+    // Convert tokens to model input
+    let model_input = tokens_to_model_input(input_tokens);
+    
+    // Forward pass through model
+    let logits = model.forward(model_input);
+    
+    // Apply sampling strategies
+    let scaled_logits = apply_temperature(logits, temperature);
+    let filtered_logits = apply_top_k(scaled_logits, top_k);
+    let nucleus_logits = apply_top_p(filtered_logits, top_p);
+    
+    // Sample next token
+    let next_token = sample_token(nucleus_logits);
+    
+    // Decode to cognitive state
+    // (Implementation details omitted)
+    
+    return result_state
+  }
+  
+  /**
+   * Generate a sequence of cognitive states
+   * @param initial_state: starting cognitive state
+   * @param num_steps: number of steps to generate
+   * @return: sequence of generated cognitive states
+   */
+  function generate_sequence(
+    initial_state: (Types.StreamID, Types.StepNumber,
+                    Types.PerceptionState, Types.ActionState, Types.SimulationState),
+    num_steps: nat
+  ) -> seq[(Types.StreamID, Types.StepNumber,
+            Types.PerceptionState, Types.ActionState, Types.SimulationState)]
+    requires is_ready
+    requires num_steps > 0
+    requires num_steps ≤ max_generation_steps
+    requires let (sid, stp, p, a, s) = initial_state in
+      1 ≤ sid ≤ Types.NUM_STREAMS ∧
+      1 ≤ stp ≤ Types.CYCLE_LENGTH ∧
+      |p| = 4 ∧ |a| = 4 ∧ |s| = 9
+    ensures |result| = num_steps
+    ensures ∀ (sid, stp, p, a, s) ∈ result.
+      1 ≤ sid ≤ Types.NUM_STREAMS ∧
+      1 ≤ stp ≤ Types.CYCLE_LENGTH ∧
+      |p| = 4 ∧ |a| = 4 ∧ |s| = 9
+  {
+    let states = [initial_state];
+    let current = initial_state;
+    
+    for i in 1..num_steps {
+      current := generate_next_state(current);
+      states := states ++ [current];
+    }
+    
+    return states
+  }
+  
+  /**
+   * Generate a complete cognitive cycle (all streams, all steps)
+   * @param initial_states: starting states for all three streams
+   * @return: complete cognitive cycle
+   */
+  function generate_cognitive_cycle(
+    initial_states: seq[(Types.StreamID, Types.StepNumber,
+                         Types.PerceptionState, Types.ActionState, Types.SimulationState)]
+  ) -> seq[(Types.StreamID, Types.StepNumber,
+            Types.PerceptionState, Types.ActionState, Types.SimulationState)]
+    requires is_ready
+    requires |initial_states| = Types.NUM_STREAMS
+    requires ∀ (sid, stp, p, a, s) ∈ initial_states.
+      1 ≤ sid ≤ Types.NUM_STREAMS ∧
+      1 ≤ stp ≤ Types.CYCLE_LENGTH ∧
+      |p| = 4 ∧ |a| = 4 ∧ |s| = 9
+    ensures |result| = Types.NUM_STREAMS * Types.CYCLE_LENGTH
+    ensures ∀ (sid, stp, p, a, s) ∈ result.
+      1 ≤ sid ≤ Types.NUM_STREAMS ∧
+      1 ≤ stp ≤ Types.CYCLE_LENGTH ∧
+      |p| = 4 ∧ |a| = 4 ∧ |s| = 9
+  {
+    let cycle_states = [];
+    
+    // Generate for each stream
+    for i in 1..Types.NUM_STREAMS {
+      let stream_sequence = generate_sequence(initial_states[i-1], Types.CYCLE_LENGTH);
+      cycle_states := cycle_states ++ stream_sequence;
+    }
+    
+    return cycle_states
+  }
+  
+  // ============================================================================
+  // BATCH PROCESSING
+  // ============================================================================
+  
+  /**
+   * Process a batch of cognitive states
+   * @param batch: batch of cognitive states
+   * @return: batch of next predicted states
+   */
+  function process_batch(
+    batch: seq[(Types.StreamID, Types.StepNumber,
+                Types.PerceptionState, Types.ActionState, Types.SimulationState)]
+  ) -> seq[(Types.StreamID, Types.StepNumber,
+            Types.PerceptionState, Types.ActionState, Types.SimulationState)]
+    requires is_ready
+    requires |batch| > 0
+    requires ∀ (sid, stp, p, a, s) ∈ batch.
+      1 ≤ sid ≤ Types.NUM_STREAMS ∧
+      1 ≤ stp ≤ Types.CYCLE_LENGTH ∧
+      |p| = 4 ∧ |a| = 4 ∧ |s| = 9
+    ensures |result| = |batch|
+    ensures ∀ (sid, stp, p, a, s) ∈ result.
+      1 ≤ sid ≤ Types.NUM_STREAMS ∧
+      1 ≤ stp ≤ Types.CYCLE_LENGTH ∧
+      |p| = 4 ∧ |a| = 4 ∧ |s| = 9
+  {
+    let results = [];
+    for state in batch {
+      let next_state = generate_next_state(state);
+      results := results ++ [next_state];
+    }
+    return results
+  }
+  
+  // ============================================================================
+  // UTILITY FUNCTIONS
+  // ============================================================================
+  
+  /**
+   * Convert token sequence to model input vector
+   * @param tokens: token sequence
+   * @return: model input vector
+   */
+  function tokens_to_model_input(tokens: seq[nat]) 
+    -> vector[Types.Real, model.config.input_dim]
+    requires ∀ t ∈ tokens. t < tokenizer.config.vocab_size
+    ensures |result| = model.config.input_dim
+  
+  /**
+   * Convert model output to token sequence
+   * @param output: model output vector
+   * @return: token sequence
+   */
+  function model_output_to_tokens(output: vector[Types.Real, model.config.output_dim]) 
+    -> seq[nat]
+    requires |output| = model.config.output_dim
+    ensures ∀ t ∈ result. t < tokenizer.config.vocab_size
+  
+  /**
+   * Reset pipeline state
+   */
+  function reset()
+    modifies model.reservoir_state, model.reservoir_state_prev,
+             model.stream_1_perception, model.stream_1_action, model.stream_1_simulation,
+             model.stream_2_perception, model.stream_2_action, model.stream_2_simulation,
+             model.stream_3_perception, model.stream_3_action, model.stream_3_simulation,
+             model.current_step, model.global_time
+  {
+    // Reset reservoir state
+    model.reservoir_state := zeros(model.config.reservoir_size);
+    model.reservoir_state_prev := zeros(model.config.reservoir_size);
+    
+    // Reset stream states
+    model.stream_1_step := 1;
+    model.stream_2_step := 5;
+    model.stream_3_step := 9;
+    
+    model.current_step := 1;
+    model.global_time := 0;
+  }
+  
+  // ============================================================================
+  // PIPELINE PROPERTIES
+  // ============================================================================
+  
+  /**
+   * Generation preserves cognitive loop structure
+   */
+  axiom GenerationPreservesStructure:
+    ∀ state: (Types.StreamID, Types.StepNumber,
+              Types.PerceptionState, Types.ActionState, Types.SimulationState),
+      num_steps: nat.
+      let sequence = generate_sequence(state, num_steps) in
+        |sequence| = num_steps ∧
+        ∀ (sid, stp, p, a, s) ∈ sequence.
+          1 ≤ sid ≤ Types.NUM_STREAMS ∧
+          1 ≤ stp ≤ Types.CYCLE_LENGTH ∧
+          |p| = 4 ∧ |a| = 4 ∧ |s| = 9
+  
+  /**
+   * Batch processing preserves order
+   */
+  axiom BatchProcessingOrder:
+    ∀ batch: seq[(Types.StreamID, Types.StepNumber,
+                  Types.PerceptionState, Types.ActionState, Types.SimulationState)].
+      let results = process_batch(batch) in
+        |results| = |batch| ∧
+        ∀ i. 0 ≤ i < |batch| ⇒
+          results[i] = generate_next_state(batch[i])
+}

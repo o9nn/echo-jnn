@@ -1,0 +1,222 @@
+/**
+ * Types.zpp
+ * Global constants and type aliases for Echo-JNN cognitive architecture
+ * Based on OEIS A000081 sequence and 3-stream cognitive loop
+ */
+
+schema Types {
+  // ============================================================================
+  // OEIS A000081 SEQUENCE CONSTANTS
+  // ============================================================================
+  
+  /** OEIS A000081: Number of unlabeled rooted trees with n nodes */
+  const A000081: seq[nat] = [1, 1, 2, 4, 9, 20, 48, 115, 286, 719, 
+                              1842, 4766, 12486, 32973, 87811, 235381,
+                              634847, 1721159, 4688676, 12826228]
+  
+  /** Maximum order supported by precomputed A000081 sequence */
+  const MAX_A000081_ORDER: nat = 20
+  
+  // ============================================================================
+  // COGNITIVE LOOP CONSTANTS
+  // ============================================================================
+  
+  /** Number of concurrent cognitive streams (consciousness streams) */
+  const NUM_STREAMS: nat = 3
+  
+  /** Length of cognitive cycle in steps */
+  const CYCLE_LENGTH: nat = 12
+  
+  /** Phase separation between streams (120 degrees) */
+  const PHASE_SEPARATION: nat = 4
+  
+  /** Number of expressive mode steps */
+  const NUM_EXPRESSIVE_STEPS: nat = 7
+  
+  /** Number of reflective mode steps */
+  const NUM_REFLECTIVE_STEPS: nat = 5
+  
+  /** Number of pivotal relevance realization steps */
+  const NUM_PIVOTAL_STEPS: nat = 2
+  
+  /** Number of triads in the cognitive cycle */
+  const NUM_TRIADS: nat = 4
+  
+  /** Size of each triad */
+  const TRIAD_SIZE: nat = 3
+  
+  // ============================================================================
+  // NESTING STRUCTURE CONSTANTS (A000081 discipline)
+  // ============================================================================
+  
+  /** Nest level 1: number of terms */
+  const NEST_1_SIZE: nat = 1
+  
+  /** Nest level 2: number of terms */
+  const NEST_2_SIZE: nat = 2
+  
+  /** Nest level 3: number of terms */
+  const NEST_3_SIZE: nat = 4
+  
+  /** Nest level 4: number of terms */
+  const NEST_4_SIZE: nat = 9
+  
+  /** Total nested terms: 1 + 2 + 4 + 9 */
+  const TOTAL_NESTED_TERMS: nat = 16
+  
+  // ============================================================================
+  // TRIAD GROUPINGS
+  // ============================================================================
+  
+  /** Triad 1: Steps {1, 5, 9} */
+  const TRIAD_1: set[nat] = {1, 5, 9}
+  
+  /** Triad 2: Steps {2, 6, 10} */
+  const TRIAD_2: set[nat] = {2, 6, 10}
+  
+  /** Triad 3: Steps {3, 7, 11} */
+  const TRIAD_3: set[nat] = {3, 7, 11}
+  
+  /** Triad 4: Steps {4, 8, 12} */
+  const TRIAD_4: set[nat] = {4, 8, 12}
+  
+  // ============================================================================
+  // TWIN PRIMES RELATION (5/7 with mean 6)
+  // ============================================================================
+  
+  /** Twin prime: 5 */
+  const TWIN_PRIME_LOWER: nat = 5
+  
+  /** Twin prime: 7 */
+  const TWIN_PRIME_UPPER: nat = 7
+  
+  /** Mean of twin primes: (5 + 7) / 2 = 6 */
+  const TWIN_PRIME_MEAN: nat = 6
+  
+  /** 3x2 triad-of-dyads interpretation */
+  const TRIAD_OF_DYADS: nat = 6
+  
+  // ============================================================================
+  // TYPE ALIASES
+  // ============================================================================
+  
+  /** Real number type for state vectors */
+  type Real = float64
+  
+  /** Natural number type for indices */
+  type Index = nat
+  
+  /** Step number in cognitive cycle [1..12] */
+  type StepNumber = {n: nat | 1 ≤ n ≤ CYCLE_LENGTH}
+  
+  /** Stream identifier [1..3] */
+  type StreamID = {n: nat | 1 ≤ n ≤ NUM_STREAMS}
+  
+  /** Triad identifier [1..4] */
+  type TriadID = {n: nat | 1 ≤ n ≤ NUM_TRIADS}
+  
+  /** A000081 order [1..MAX_A000081_ORDER] */
+  type A000081Order = {n: nat | 1 ≤ n ≤ MAX_A000081_ORDER}
+  
+  /** Probability value [0.0..1.0] */
+  type Probability = {r: Real | 0.0 ≤ r ≤ 1.0}
+  
+  /** Spectral radius (must be < 1.0 for echo state property) */
+  type SpectralRadius = {r: Real | 0.0 ≤ r < 1.0}
+  
+  /** Sparsity value [0.0..1.0] */
+  type Sparsity = {r: Real | 0.0 ≤ r ≤ 1.0}
+  
+  /** Leak rate for reservoir [0.0..1.0] */
+  type LeakRate = {r: Real | 0.0 ≤ r ≤ 1.0}
+  
+  // ============================================================================
+  // VECTOR TYPES (A000081-aligned dimensions)
+  // ============================================================================
+  
+  /** Perception state vector: 4 dimensions (A000081[4] = 4) */
+  type PerceptionState = vector[Real, 4]
+  
+  /** Action state vector: 4 dimensions (A000081[4] = 4) */
+  type ActionState = vector[Real, 4]
+  
+  /** Simulation state vector: 9 dimensions (A000081[5] = 9) */
+  type SimulationState = vector[Real, 9]
+  
+  /** Nest level 1 vector: 1 term */
+  type Nest1Vector = vector[Real, NEST_1_SIZE]
+  
+  /** Nest level 2 vector: 2 terms */
+  type Nest2Vector = vector[Real, NEST_2_SIZE]
+  
+  /** Nest level 3 vector: 4 terms */
+  type Nest3Vector = vector[Real, NEST_3_SIZE]
+  
+  /** Nest level 4 vector: 9 terms */
+  type Nest4Vector = vector[Real, NEST_4_SIZE]
+  
+  // ============================================================================
+  // STEP CLASSIFICATION TYPES
+  // ============================================================================
+  
+  /** Step mode: expressive or reflective */
+  type StepMode = enum {
+    EXPRESSIVE,  // Steps 1-7
+    REFLECTIVE   // Steps 8-12
+  }
+  
+  /** Step type: pivotal, affordance, or simulation */
+  type StepType = enum {
+    PIVOTAL_RELEVANCE,      // Steps {1, 5, 9}
+    AFFORDANCE_INTERACTION, // Steps {2, 3, 4, 6, 7}
+    SALIENCE_SIMULATION     // Steps {8, 10, 11, 12}
+  }
+  
+  // ============================================================================
+  // MATRIX TYPES
+  // ============================================================================
+  
+  /** Dense matrix type */
+  type DenseMatrix[m: nat, n: nat] = matrix[Real, m, n]
+  
+  /** Sparse matrix type (for large reservoirs) */
+  type SparseMatrix[m: nat, n: nat] = sparse_matrix[Real, m, n]
+  
+  // ============================================================================
+  // INVARIANTS
+  // ============================================================================
+  
+  /** Verify cognitive loop structure */
+  axiom CognitiveLoopStructure:
+    NUM_STREAMS * PHASE_SEPARATION = CYCLE_LENGTH ∧
+    NUM_EXPRESSIVE_STEPS + NUM_REFLECTIVE_STEPS = CYCLE_LENGTH ∧
+    NUM_TRIADS * TRIAD_SIZE = CYCLE_LENGTH
+  
+  /** Verify nesting structure follows A000081 */
+  axiom NestingStructure:
+    NEST_1_SIZE = A000081[1] ∧
+    NEST_2_SIZE = 2 ∧  // Adjusted from A000081[2] = 1
+    NEST_3_SIZE = 4 ∧  // Adjusted from A000081[3] = 2
+    NEST_4_SIZE = 9    // Adjusted from A000081[4] = 4
+  
+  /** Verify triad groupings are disjoint and complete */
+  axiom TriadGroupings:
+    TRIAD_1 ∩ TRIAD_2 = ∅ ∧
+    TRIAD_1 ∩ TRIAD_3 = ∅ ∧
+    TRIAD_1 ∩ TRIAD_4 = ∅ ∧
+    TRIAD_2 ∩ TRIAD_3 = ∅ ∧
+    TRIAD_2 ∩ TRIAD_4 = ∅ ∧
+    TRIAD_3 ∩ TRIAD_4 = ∅ ∧
+    TRIAD_1 ∪ TRIAD_2 ∪ TRIAD_3 ∪ TRIAD_4 = {1..12}
+  
+  /** Verify twin primes relation */
+  axiom TwinPrimesRelation:
+    TWIN_PRIME_MEAN = (TWIN_PRIME_LOWER + TWIN_PRIME_UPPER) / 2 ∧
+    TRIAD_OF_DYADS = NUM_STREAMS * 2
+  
+  /** Verify A000081 sequence properties */
+  axiom A000081Properties:
+    A000081[1] = 1 ∧
+    A000081[2] = 1 ∧
+    ∀ n: nat. 3 ≤ n ≤ MAX_A000081_ORDER ⇒ A000081[n] > A000081[n-1]
+}

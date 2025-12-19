@@ -1,0 +1,290 @@
+/**
+ * TokenizerConfig.zpp
+ * Tokenizer configuration state and invariants for Echo-JNN
+ * Handles cognitive state serialization and deserialization
+ */
+
+import Types
+
+schema TokenizerConfig {
+  // ============================================================================
+  // TOKENIZER PARAMETERS
+  // ============================================================================
+  
+  /** Vocabulary size for cognitive state encoding */
+  vocab_size: nat
+  
+  /** Maximum sequence length */
+  max_length: nat
+  
+  /** Padding token ID */
+  pad_token_id: nat
+  
+  /** Beginning of sequence token ID */
+  bos_token_id: nat
+  
+  /** End of sequence token ID */
+  eos_token_id: nat
+  
+  /** Unknown token ID */
+  unk_token_id: nat
+  
+  /** Separator token ID (for multi-stream encoding) */
+  sep_token_id: nat
+  
+  /** Mask token ID (for masked prediction) */
+  mask_token_id: nat
+  
+  // ============================================================================
+  // COGNITIVE STATE ENCODING PARAMETERS
+  // ============================================================================
+  
+  /** Number of tokens per perception state (4 dimensions) */
+  perception_tokens: nat
+  
+  /** Number of tokens per action state (4 dimensions) */
+  action_tokens: nat
+  
+  /** Number of tokens per simulation state (9 dimensions) */
+  simulation_tokens: nat
+  
+  /** Number of tokens for step metadata */
+  metadata_tokens: nat
+  
+  /** Total tokens per cognitive state snapshot */
+  tokens_per_snapshot: nat
+  
+  // ============================================================================
+  // STREAM ENCODING PARAMETERS
+  // ============================================================================
+  
+  /** Number of tokens for stream ID encoding */
+  stream_id_tokens: nat
+  
+  /** Number of tokens for step number encoding */
+  step_number_tokens: nat
+  
+  /** Number of tokens for triad ID encoding */
+  triad_id_tokens: nat
+  
+  // ============================================================================
+  // SPECIAL TOKEN MAPPINGS
+  // ============================================================================
+  
+  /** Token for stream 1 marker */
+  stream_1_token: nat
+  
+  /** Token for stream 2 marker */
+  stream_2_token: nat
+  
+  /** Token for stream 3 marker */
+  stream_3_token: nat
+  
+  /** Token for expressive mode marker */
+  expressive_token: nat
+  
+  /** Token for reflective mode marker */
+  reflective_token: nat
+  
+  /** Token for pivotal step marker */
+  pivotal_token: nat
+  
+  // ============================================================================
+  // INVARIANTS
+  // ============================================================================
+  
+  /** Special tokens must be within vocabulary */
+  axiom SpecialTokensInVocab:
+    pad_token_id < vocab_size ∧
+    bos_token_id < vocab_size ∧
+    eos_token_id < vocab_size ∧
+    unk_token_id < vocab_size ∧
+    sep_token_id < vocab_size ∧
+    mask_token_id < vocab_size ∧
+    stream_1_token < vocab_size ∧
+    stream_2_token < vocab_size ∧
+    stream_3_token < vocab_size ∧
+    expressive_token < vocab_size ∧
+    reflective_token < vocab_size ∧
+    pivotal_token < vocab_size
+  
+  /** Special tokens must be distinct */
+  axiom SpecialTokensDistinct:
+    pad_token_id ≠ bos_token_id ∧
+    pad_token_id ≠ eos_token_id ∧
+    pad_token_id ≠ unk_token_id ∧
+    bos_token_id ≠ eos_token_id ∧
+    bos_token_id ≠ unk_token_id ∧
+    eos_token_id ≠ unk_token_id
+  
+  /** Cognitive state encoding dimensions match A000081 */
+  axiom CognitiveStateDimensions:
+    perception_tokens = 4 ∧  // A000081[4] = 4
+    action_tokens = 4 ∧      // A000081[4] = 4
+    simulation_tokens = 9    // A000081[5] = 9
+  
+  /** Total tokens per snapshot calculation */
+  axiom TokensPerSnapshot:
+    tokens_per_snapshot = 
+      perception_tokens + 
+      action_tokens + 
+      simulation_tokens + 
+      metadata_tokens +
+      stream_id_tokens +
+      step_number_tokens +
+      triad_id_tokens
+  
+  /** Maximum length must accommodate full cognitive cycle */
+  axiom MaxLengthCapacity:
+    max_length ≥ tokens_per_snapshot * Types.CYCLE_LENGTH * Types.NUM_STREAMS
+  
+  /** Stream tokens must be distinct */
+  axiom StreamTokensDistinct:
+    stream_1_token ≠ stream_2_token ∧
+    stream_1_token ≠ stream_3_token ∧
+    stream_2_token ≠ stream_3_token
+  
+  // ============================================================================
+  // ENCODING FUNCTIONS
+  // ============================================================================
+  
+  /**
+   * Encode a perception state vector into tokens
+   * @param state: 4-dimensional perception state
+   * @return: sequence of token IDs
+   */
+  function encode_perception(state: Types.PerceptionState) -> seq[nat]
+    requires |state| = 4
+    ensures |result| = perception_tokens
+    ensures ∀ t ∈ result. t < vocab_size
+  
+  /**
+   * Encode an action state vector into tokens
+   * @param state: 4-dimensional action state
+   * @return: sequence of token IDs
+   */
+  function encode_action(state: Types.ActionState) -> seq[nat]
+    requires |state| = 4
+    ensures |result| = action_tokens
+    ensures ∀ t ∈ result. t < vocab_size
+  
+  /**
+   * Encode a simulation state vector into tokens
+   * @param state: 9-dimensional simulation state
+   * @return: sequence of token IDs
+   */
+  function encode_simulation(state: Types.SimulationState) -> seq[nat]
+    requires |state| = 9
+    ensures |result| = simulation_tokens
+    ensures ∀ t ∈ result. t < vocab_size
+  
+  /**
+   * Encode stream ID into tokens
+   * @param stream_id: stream identifier [1..3]
+   * @return: sequence of token IDs
+   */
+  function encode_stream_id(stream_id: Types.StreamID) -> seq[nat]
+    requires 1 ≤ stream_id ≤ Types.NUM_STREAMS
+    ensures |result| = stream_id_tokens
+    ensures ∀ t ∈ result. t < vocab_size
+  
+  /**
+   * Encode step number into tokens
+   * @param step: step number [1..12]
+   * @return: sequence of token IDs
+   */
+  function encode_step_number(step: Types.StepNumber) -> seq[nat]
+    requires 1 ≤ step ≤ Types.CYCLE_LENGTH
+    ensures |result| = step_number_tokens
+    ensures ∀ t ∈ result. t < vocab_size
+  
+  /**
+   * Encode complete cognitive state snapshot
+   * @param perception: perception state
+   * @param action: action state
+   * @param simulation: simulation state
+   * @param stream_id: stream identifier
+   * @param step: step number
+   * @return: complete token sequence for snapshot
+   */
+  function encode_snapshot(
+    perception: Types.PerceptionState,
+    action: Types.ActionState,
+    simulation: Types.SimulationState,
+    stream_id: Types.StreamID,
+    step: Types.StepNumber
+  ) -> seq[nat]
+    requires |perception| = 4
+    requires |action| = 4
+    requires |simulation| = 9
+    requires 1 ≤ stream_id ≤ Types.NUM_STREAMS
+    requires 1 ≤ step ≤ Types.CYCLE_LENGTH
+    ensures |result| = tokens_per_snapshot
+    ensures ∀ t ∈ result. t < vocab_size
+  {
+    let p_tokens = encode_perception(perception);
+    let a_tokens = encode_action(action);
+    let s_tokens = encode_simulation(simulation);
+    let id_tokens = encode_stream_id(stream_id);
+    let step_tokens = encode_step_number(step);
+    
+    return [bos_token_id] ++ 
+           id_tokens ++ 
+           step_tokens ++ 
+           p_tokens ++ 
+           a_tokens ++ 
+           s_tokens ++ 
+           [eos_token_id]
+  }
+  
+  // ============================================================================
+  // DECODING FUNCTIONS
+  // ============================================================================
+  
+  /**
+   * Decode tokens back to perception state
+   * @param tokens: token sequence
+   * @return: 4-dimensional perception state
+   */
+  function decode_perception(tokens: seq[nat]) -> Types.PerceptionState
+    requires |tokens| = perception_tokens
+    requires ∀ t ∈ tokens. t < vocab_size
+    ensures |result| = 4
+  
+  /**
+   * Decode tokens back to action state
+   * @param tokens: token sequence
+   * @return: 4-dimensional action state
+   */
+  function decode_action(tokens: seq[nat]) -> Types.ActionState
+    requires |tokens| = action_tokens
+    requires ∀ t ∈ tokens. t < vocab_size
+    ensures |result| = 4
+  
+  /**
+   * Decode tokens back to simulation state
+   * @param tokens: token sequence
+   * @return: 9-dimensional simulation state
+   */
+  function decode_simulation(tokens: seq[nat]) -> Types.SimulationState
+    requires |tokens| = simulation_tokens
+    requires ∀ t ∈ tokens. t < vocab_size
+    ensures |result| = 9
+  
+  /**
+   * Decode complete snapshot from tokens
+   * @param tokens: complete token sequence
+   * @return: tuple of (perception, action, simulation, stream_id, step)
+   */
+  function decode_snapshot(tokens: seq[nat]) -> (
+    Types.PerceptionState,
+    Types.ActionState,
+    Types.SimulationState,
+    Types.StreamID,
+    Types.StepNumber
+  )
+    requires |tokens| = tokens_per_snapshot
+    requires ∀ t ∈ tokens. t < vocab_size
+    requires tokens[0] = bos_token_id
+    requires tokens[|tokens| - 1] = eos_token_id
+}

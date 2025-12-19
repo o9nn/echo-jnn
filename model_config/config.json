@@ -1,0 +1,124 @@
+{
+  "_formal_spec": "specs/zpp/ModelConfig.zpp",
+  "_spec_version": "1.0.0",
+  "_model_type": "echo-jnn-cognitive-architecture",
+  "_description": "Echo-JNN: Deep Tree Echo State Reservoir Computing with A000081-aligned parameters",
+  
+  "model_type": "echo-jnn",
+  "architecture": "deep-tree-echo-reservoir",
+  
+  "a000081_parameters": {
+    "base_order": 5,
+    "a000081_sequence": [1, 1, 2, 4, 9, 20, 48, 115, 286, 719, 1842, 4766, 12486, 32973, 87811, 235381, 634847, 1721159, 4688676, 12826228],
+    "reservoir_size": 17,
+    "reservoir_size_derivation": "sum(A000081[1:5]) = 1+1+2+4+9 = 17",
+    "membrane_order": 3,
+    "num_membranes": 2,
+    "num_membranes_derivation": "A000081[3] = 2",
+    "max_tree_order": 8,
+    "growth_rate": 2.222222222222222,
+    "growth_rate_derivation": "A000081[6]/A000081[5] = 20/9",
+    "mutation_rate": 0.1111111111111111,
+    "mutation_rate_derivation": "1.0/A000081[5] = 1/9",
+    "crossover_rate": 0.8888888888888888,
+    "crossover_rate_derivation": "1.0 - mutation_rate"
+  },
+  
+  "reservoir_parameters": {
+    "spectral_radius": 0.8888888888888888,
+    "spectral_radius_derivation": "1.0 - mutation_rate = 1.0 - 0.111 ≈ 0.889",
+    "sparsity": 0.2222222222222222,
+    "sparsity_derivation": "clamp(mutation_rate * 2.0, 0.05, 0.5) = clamp(0.222, 0.05, 0.5)",
+    "input_scaling": 1.0,
+    "leak_rate": 0.3,
+    "ridge_param": 1e-6,
+    "use_sparse_matrix": true
+  },
+  
+  "cognitive_loop_parameters": {
+    "num_streams": 3,
+    "cycle_length": 12,
+    "phase_separation": 4,
+    "phase_separation_degrees": 120,
+    "num_triads": 4,
+    "triad_size": 3,
+    "coupling_strength": 0.5,
+    "triads": {
+      "triad_1": [1, 5, 9],
+      "triad_2": [2, 6, 10],
+      "triad_3": [3, 7, 11],
+      "triad_4": [4, 8, 12]
+    },
+    "step_modes": {
+      "expressive_steps": [1, 2, 3, 4, 5, 6, 7],
+      "reflective_steps": [8, 9, 10, 11, 12],
+      "pivotal_steps": [1, 5, 9],
+      "affordance_steps": [2, 3, 4, 6, 7],
+      "simulation_steps": [8, 10, 11, 12]
+    }
+  },
+  
+  "nesting_structure": {
+    "nest_1_size": 1,
+    "nest_1_description": "Global summary (1 term)",
+    "nest_2_size": 2,
+    "nest_2_description": "Coarse features (2 terms)",
+    "nest_3_size": 4,
+    "nest_3_description": "Medium features (4 terms)",
+    "nest_4_size": 9,
+    "nest_4_description": "Fine features (9 terms)",
+    "total_nested_terms": 16,
+    "nesting_derivation": "A000081 discipline: 1, 2, 4, 9 terms"
+  },
+  
+  "state_dimensions": {
+    "perception_dim": 4,
+    "perception_derivation": "A000081[4] = 4",
+    "action_dim": 4,
+    "action_derivation": "A000081[4] = 4",
+    "simulation_dim": 9,
+    "simulation_derivation": "A000081[5] = 9"
+  },
+  
+  "bseries_parameters": {
+    "max_bseries_order": 7,
+    "max_bseries_order_derivation": "base_order + 2 = 5 + 2",
+    "num_elementary_diffs": 17,
+    "num_elementary_diffs_derivation": "equals reservoir_size"
+  },
+  
+  "energy_fitness_parameters": {
+    "energy_scale": 9.0,
+    "energy_scale_derivation": "A000081[5] = 9",
+    "fitness_scale": 0.1111111111111111,
+    "fitness_scale_derivation": "1.0/energy_scale = 1/9"
+  },
+  
+  "model_architecture": {
+    "input_dim": 10,
+    "output_dim": 10,
+    "hidden_dim": 64,
+    "num_layers": 3,
+    "dropout": 0.1,
+    "activation": "tanh"
+  },
+  
+  "twin_primes_relation": {
+    "lower": 5,
+    "upper": 7,
+    "mean": 6,
+    "triad_of_dyads": 6,
+    "interpretation": "3 streams × 2 = 6 (triad-of-dyads)"
+  },
+  
+  "mathematical_foundations": {
+    "oeis_sequence": "A000081",
+    "oeis_url": "https://oeis.org/A000081",
+    "description": "Number of unlabeled rooted trees with n nodes",
+    "principle": "All parameters derived from A000081 - no arbitrary values"
+  },
+  
+  "version": "1.0.0",
+  "julia_version": "1.10",
+  "framework": "ModelingToolkit.jl + ReservoirComputing.jl + BSeries.jl + RootedTrees.jl"
+}

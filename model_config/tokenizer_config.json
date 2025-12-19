@@ -1,0 +1,147 @@
+{
+  "_formal_spec": "specs/zpp/TokenizerConfig.zpp",
+  "_spec_version": "1.0.0",
+  "_description": "Tokenizer configuration for Echo-JNN cognitive state encoding",
+  
+  "tokenizer_type": "cognitive-state-encoder",
+  "model_type": "echo-jnn",
+  
+  "vocabulary": {
+    "vocab_size": 32000,
+    "max_length": 2048,
+    "padding_side": "right",
+    "truncation_side": "right"
+  },
+  
+  "special_tokens": {
+    "pad_token": "<pad>",
+    "pad_token_id": 0,
+    "bos_token": "<bos>",
+    "bos_token_id": 1,
+    "eos_token": "<eos>",
+    "eos_token_id": 2,
+    "unk_token": "<unk>",
+    "unk_token_id": 3,
+    "sep_token": "<sep>",
+    "sep_token_id": 4,
+    "mask_token": "<mask>",
+    "mask_token_id": 5
+  },
+  
+  "cognitive_state_tokens": {
+    "perception_tokens": 4,
+    "perception_tokens_derivation": "A000081[4] = 4 dimensions",
+    "action_tokens": 4,
+    "action_tokens_derivation": "A000081[4] = 4 dimensions",
+    "simulation_tokens": 9,
+    "simulation_tokens_derivation": "A000081[5] = 9 dimensions",
+    "metadata_tokens": 2,
+    "stream_id_tokens": 1,
+    "step_number_tokens": 1,
+    "triad_id_tokens": 1,
+    "tokens_per_snapshot": 24,
+    "tokens_per_snapshot_calculation": "1(bos) + 1(stream_id) + 1(step) + 4(perception) + 4(action) + 9(simulation) + 2(metadata) + 1(triad) + 1(eos) = 24"
+  },
+  
+  "stream_markers": {
+    "stream_1_token": "<stream_1>",
+    "stream_1_token_id": 100,
+    "stream_2_token": "<stream_2>",
+    "stream_2_token_id": 101,
+    "stream_3_token": "<stream_3>",
+    "stream_3_token_id": 102
+  },
+  
+  "mode_markers": {
+    "expressive_token": "<expressive>",
+    "expressive_token_id": 200,
+    "reflective_token": "<reflective>",
+    "reflective_token_id": 201,
+    "pivotal_token": "<pivotal>",
+    "pivotal_token_id": 202
+  },
+  
+  "step_markers": {
+    "step_1_token": "<step_1>",
+    "step_1_token_id": 300,
+    "step_2_token": "<step_2>",
+    "step_2_token_id": 301,
+    "step_3_token": "<step_3>",
+    "step_3_token_id": 302,
+    "step_4_token": "<step_4>",
+    "step_4_token_id": 303,
+    "step_5_token": "<step_5>",
+    "step_5_token_id": 304,
+    "step_6_token": "<step_6>",
+    "step_6_token_id": 305,
+    "step_7_token": "<step_7>",
+    "step_7_token_id": 306,
+    "step_8_token": "<step_8>",
+    "step_8_token_id": 307,
+    "step_9_token": "<step_9>",
+    "step_9_token_id": 308,
+    "step_10_token": "<step_10>",
+    "step_10_token_id": 309,
+    "step_11_token": "<step_11>",
+    "step_11_token_id": 310,
+    "step_12_token": "<step_12>",
+    "step_12_token_id": 311
+  },
+  
+  "triad_markers": {
+    "triad_1_token": "<triad_1>",
+    "triad_1_token_id": 400,
+    "triad_1_steps": [1, 5, 9],
+    "triad_2_token": "<triad_2>",
+    "triad_2_token_id": 401,
+    "triad_2_steps": [2, 6, 10],
+    "triad_3_token": "<triad_3>",
+    "triad_3_token_id": 402,
+    "triad_3_steps": [3, 7, 11],
+    "triad_4_token": "<triad_4>",
+    "triad_4_token_id": 403,
+    "triad_4_steps": [4, 8, 12]
+  },
+  
+  "nesting_markers": {
+    "nest_1_token": "<nest_1>",
+    "nest_1_token_id": 500,
+    "nest_1_size": 1,
+    "nest_2_token": "<nest_2>",
+    "nest_2_token_id": 501,
+    "nest_2_size": 2,
+    "nest_3_token": "<nest_3>",
+    "nest_3_token_id": 502,
+    "nest_3_size": 4,
+    "nest_4_token": "<nest_4>",
+    "nest_4_token_id": 503,
+    "nest_4_size": 9
+  },
+  
+  "encoding_parameters": {
+    "float_precision": "float32",
+    "quantization_levels": 256,
+    "normalization": "min-max",
+    "value_range": [-1.0, 1.0]
+  },
+  
+  "cycle_encoding": {
+    "max_cycles": 10,
+    "tokens_per_cycle": 864,
+    "tokens_per_cycle_calculation": "24 tokens/snapshot × 3 streams × 12 steps = 864",
+    "max_cycle_length": 8640,
+    "max_cycle_length_calculation": "864 × 10 cycles"
+  },
+  
+  "a000081_alignment": {
+    "perception_dim": 4,
+    "action_dim": 4,
+    "simulation_dim": 9,
+    "total_state_dim": 17,
+    "total_state_dim_derivation": "4 + 4 + 9 = 17 (matches reservoir_size)"
+  },
+  
+  "version": "1.0.0",
+  "compatible_models": ["echo-jnn-v1"],
+  "framework": "custom-cognitive-tokenizer"
+}
