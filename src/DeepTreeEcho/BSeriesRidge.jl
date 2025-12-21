@@ -129,8 +129,32 @@ function generate_trees_up_to_order(order::Int)
         push!(trees, RootedTreeSimple([1, 2, 2, 2]))  # Three branches
     end
     
-    # For higher orders, would use proper tree generation algorithm
-    # This is a simplified version for demonstration
+    # Order 5: five nodes (9 trees) - simplified subset
+    if order >= 5
+        push!(trees, RootedTreeSimple([1, 2, 3, 4, 5]))  # Linear
+        push!(trees, RootedTreeSimple([1, 2, 3, 4, 4]))  # Branch at end
+        push!(trees, RootedTreeSimple([1, 2, 3, 4, 3]))  # Branch at level 3
+        push!(trees, RootedTreeSimple([1, 2, 3, 4, 2]))  # Branch at level 2
+        push!(trees, RootedTreeSimple([1, 2, 3, 3, 3]))  # Two branches
+        push!(trees, RootedTreeSimple([1, 2, 3, 3, 2]))  # Mixed branches
+        push!(trees, RootedTreeSimple([1, 2, 3, 2, 2]))  # Different config
+        push!(trees, RootedTreeSimple([1, 2, 2, 3, 3]))  # Symmetric
+        push!(trees, RootedTreeSimple([1, 2, 2, 2, 2]))  # Four branches
+    end
+    
+    # Order 6+: Generate representative trees (simplified)
+    if order >= 6
+        for n in 6:order
+            # Linear tree
+            push!(trees, RootedTreeSimple(collect(1:n)))
+            # Branched tree (all branches from root)
+            push!(trees, RootedTreeSimple(vcat([1], fill(2, n-1))))
+            # Mixed structure
+            if n >= 4
+                push!(trees, RootedTreeSimple(vcat([1, 2, 3], fill(3, n-3))))
+            end
+        end
+    end
     
     return trees
 end
@@ -162,6 +186,10 @@ function initialize_coefficients(trees::Vector{RootedTreeSimple}, method::Symbol
                 coeffs[i] = 1/6
             elseif tree.order == 4
                 coeffs[i] = 1/24
+            elseif tree.order >= 5
+                # Higher order terms (approximate, using safe computation)
+                # Avoid factorial overflow by using logarithms or precomputed values
+                coeffs[i] = tree.order <= 20 ? 1.0 / factorial(Float64(tree.order)) : 0.0
             end
         end
     else

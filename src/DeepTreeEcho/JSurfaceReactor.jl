@@ -173,6 +173,9 @@ function gradient_flow!(surface::JSurface, state::JSurfaceState, dt::Float64)
     # Update position: ψ_{n+1} = ψ_n + dt · v
     state.position += dt * state.velocity
     
+    # Increment generation counter
+    state.generation += 1
+    
     return nothing
 end
 
@@ -216,6 +219,9 @@ function symplectic_integrate!(surface::JSurface, state::JSurfaceState, dt::Floa
     
     # Update velocity
     state.velocity = (state.position - [q; p]) / dt
+    
+    # Increment generation counter
+    state.generation += 1
     
     return nothing
 end

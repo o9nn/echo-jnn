@@ -406,7 +406,7 @@ function process_input!(system::DeepTreeEchoSystem,
     evolve_membrane!(system.reservoir, 3)
     
     # 3. Harvest feedback from garden
-    feedback = harvest_feedback!(system.garden, system.reservoir.root_id)
+    feedback = MembraneGarden.harvest_feedback!(system.garden, system.reservoir.root_id)
     
     # 4. Update J-surface state
     if !isempty(feedback)
