@@ -21,6 +21,19 @@ The **Deep Tree Echo State Reservoir Computer** (DTE-RC) represents a novel appr
 - 🧫 **P-Systems** for membrane-based evolutionary computation
 - ⚡ **J-Surface** geometry for gradient-evolution unification
 - 🔬 **Ontogenetic Evolution** driven by OEIS A000081
+- 🧠 **Neuro-Symbolic Architecture** integrating perception, reasoning, and world modeling
+
+### 🆕 Neuro-Symbolic Integration
+
+The system now includes a complete **neuro-symbolic architecture** that unifies:
+
+- **Neural Perception**: P-system nested membrane reservoirs as learnable feature embeddings (the "deep" aspect)
+- **Symbolic Reasoning**: B-series rooted forest ridges as differentiable behavior trees (the "tree" aspect)
+- **World Model**: Predictive engine bringing both into nomological balance through active inference
+- **Morphogenetic Self-Assembly**: Pattern formation through reaction-diffusion dynamics
+- **Relevance Realization**: Cognitive synergy through opponent processing and echo-state resonance
+
+See **[NEURO_SYMBOLIC_ARCHITECTURE.md](NEURO_SYMBOLIC_ARCHITECTURE.md)** for complete documentation.
 
 ## Architecture: Seven Integrated Layers
 

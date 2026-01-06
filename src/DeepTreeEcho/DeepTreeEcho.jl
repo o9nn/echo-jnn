@@ -97,6 +97,7 @@ include("OntogeneticEngine.jl")
 include("TaskflowIntegration.jl")
 include("PackageIntegration.jl")
 include("Visualization.jl")
+include("NeuroSymbolicBridge.jl")
 
 using .A000081Parameters
 using .JSurfaceReactor
@@ -107,12 +108,16 @@ using .OntogeneticEngine
 using .TaskflowIntegration
 using .PackageIntegration
 using .Visualization
+using .NeuroSymbolicBridge
 
 export DeepTreeEchoSystem
 export initialize!, evolve!, process_input!, get_system_status
 export plant_trees!, harvest_feedback!, adapt_topology!
 export TaskflowOntogeneticSystem, evolve_with_taskflow!
 export get_parameter_set, explain_parameters, validate_parameters, A000081ParameterSet
+# Neuro-Symbolic exports
+export NeuroSymbolicSystem, create_neuro_symbolic_system, initialize_morphogenetic!
+export perceive!, reason!, predict!, infer_action!, evolve_morphogenetic!, unified_step!
 
 """
     DeepTreeEchoSystem
