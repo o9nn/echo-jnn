@@ -22,6 +22,7 @@ The **Deep Tree Echo State Reservoir Computer** (DTE-RC) represents a novel appr
 - ⚡ **J-Surface** geometry for gradient-evolution unification
 - 🔬 **Ontogenetic Evolution** driven by OEIS A000081
 - 🧠 **Neuro-Symbolic Architecture** integrating perception, reasoning, and world modeling
+- 🔮 **TensorLogic** for tensor-based logic programming and symbolic reasoning
 
 ### 🆕 Neuro-Symbolic Integration
 
@@ -29,11 +30,12 @@ The system now includes a complete **neuro-symbolic architecture** that unifies:
 
 - **Neural Perception**: P-system nested membrane reservoirs as learnable feature embeddings (the "deep" aspect)
 - **Symbolic Reasoning**: B-series rooted forest ridges as differentiable behavior trees (the "tree" aspect)
+- **TensorLogic Engine**: Sparse and dense logic programming for rule-based inference and differentiable reasoning
 - **World Model**: Predictive engine bringing both into nomological balance through active inference
 - **Morphogenetic Self-Assembly**: Pattern formation through reaction-diffusion dynamics
 - **Relevance Realization**: Cognitive synergy through opponent processing and echo-state resonance
 
-See **[NEURO_SYMBOLIC_ARCHITECTURE.md](NEURO_SYMBOLIC_ARCHITECTURE.md)** for complete documentation.
+See **[NEURO_SYMBOLIC_ARCHITECTURE.md](NEURO_SYMBOLIC_ARCHITECTURE.md)** and **[TENSORLOGIC_INTEGRATION.md](TENSORLOGIC_INTEGRATION.md)** for complete documentation.
 
 ## Architecture: Seven Integrated Layers
 
@@ -390,6 +392,7 @@ This repository includes the following packages for streamlined development:
 - **[DataDrivenDiffEq.jl](https://github.com/SciML/DataDrivenDiffEq.jl)** - Equation discovery
 - **[Catalyst.jl](https://github.com/SciML/Catalyst.jl)** - Reaction network modeling
 - **[MultiScaleArrays.jl](https://github.com/SciML/MultiScaleArrays.jl)** - Hierarchical arrays
+- **[TensorLogic.jl](https://github.com/JeffreySarnoff/TensorLogic.jl)** - Tensor-based logic programming
 
 ### Integration Examples
 
