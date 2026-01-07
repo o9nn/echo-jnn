@@ -3,6 +3,16 @@
 #------------------------------------------------------------------------------
 using Dictionaries
 
+"""
+    _relu(x)
+
+Rectified linear unit (ReLU) activation for differentiable logic operations.
+
+Returns `max(0, x)` in a differentiable manner, used for soft implication
+semantics in fuzzy logic evaluation. When using `soft_differentiable()` 
+configuration, implication `a → b` is implemented as `relu(b - a)`, which
+approximates classical implication while remaining compatible with gradient descent.
+"""
 @inline _relu(x) = ifelse(x > zero(x), x, zero(x))
 
 """Evaluate a tutorial-style expression to a dense `LabeledTensor`.
