@@ -1,0 +1,228 @@
+```
+╔══════════════════════════════════════════════════════════════════════════╗
+║                    TensorLogic ⊗ echo-jnn Integration                   ║
+║                   Neuro-Symbolic Cognitive Architecture                  ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+┌────────────────────────────────────────────────────────────────────────┐
+│                        APPLICATION LAYER                               │
+│                                                                        │
+│  Cognitive Tasks: Frame Selection, Attention, Memory, Decision        │
+└────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                    NEURO-SYMBOLIC FUSION LAYER                         │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│   ┌─────────────────┐              ┌─────────────────┐               │
+│   │   TensorLogic   │◄────────────►│  Echo State     │               │
+│   │     Engine      │   Bidirect   │   Reservoir     │               │
+│   │                 │   Coupling   │                 │               │
+│   │  • Sparse Rules │              │  • Temporal     │               │
+│   │  • Dense Logic  │              │  • Continuous   │               │
+│   │  • Differentiable│             │  • Adaptive     │               │
+│   └─────────────────┘              └─────────────────┘               │
+│            │                                │                          │
+│            └────────────┬───────────────────┘                          │
+│                         ▼                                              │
+│                  ┌─────────────┐                                       │
+│                  │  Cognitive  │                                       │
+│                  │   Fusion    │                                       │
+│                  │  Controller │                                       │
+│                  └─────────────┘                                       │
+│                         │                                              │
+└─────────────────────────┼──────────────────────────────────────────────┘
+                          │
+                          ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                     COMPUTATIONAL SUBSTRATE                            │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐               │
+│  │   B-Series   │  │  P-Systems   │  │  J-Surface   │               │
+│  │   Ridges     │  │  Membranes   │  │   Reactor    │               │
+│  └──────────────┘  └──────────────┘  └──────────────┘               │
+│         │                  │                  │                       │
+│         └──────────────────┴──────────────────┘                       │
+│                            │                                          │
+│                            ▼                                          │
+│                  ┌──────────────────┐                                 │
+│                  │  Rooted Trees    │                                 │
+│                  │   (A000081)      │                                 │
+│                  └──────────────────┘                                 │
+└────────────────────────────────────────────────────────────────────────┘
+
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                    TensorLogic Module Architecture                       ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+┌────────────────────────────────────────────────────────────────────────┐
+│                        TensorLogic.jl                                  │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  ┌────────────────────────────────────────────────────────┐           │
+│  │                  SPARSE PATH                            │           │
+│  │                                                         │           │
+│  │  Rule Parser ──► IR Program ──► Relation Store        │           │
+│  │      │                               │                 │           │
+│  │      └───────────► Fixpoint Engine ──┘                 │           │
+│  │                         │                              │           │
+│  │                    Tuple Results                       │           │
+│  └────────────────────────────────────────────────────────┘           │
+│                             │                                         │
+│                             │                                         │
+│  ┌────────────────────────────────────────────────────────┐           │
+│  │                  DENSE PATH                             │           │
+│  │                                                         │           │
+│  │  Expression Parser ──► AST ──► Compiler Context        │           │
+│  │                         │            │                 │           │
+│  │                         ├────► Validator               │           │
+│  │                         │            │                 │           │
+│  │                    Graph Compiler ◄──┘                 │           │
+│  │                         │                              │           │
+│  │                    ┌────┴─────┐                        │           │
+│  │                    │          │                        │           │
+│  │              Dense Evaluator  Export                   │           │
+│  │                    │          │                        │           │
+│  │              Tensor Results  JSON/DOT                  │           │
+│  └────────────────────────────────────────────────────────┘           │
+│                                                                        │
+│  ┌────────────────────────────────────────────────────────┐           │
+│  │              TENSOR OPERATIONS                          │           │
+│  │                                                         │           │
+│  │  LabeledTensor ──► Backend ──► Planner ──► Contract   │           │
+│  │                      │                                 │           │
+│  │                  Broadcast                             │           │
+│  │                  Contraction                           │           │
+│  └────────────────────────────────────────────────────────┘           │
+└────────────────────────────────────────────────────────────────────────┘
+
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                      Data Flow Example                                   ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+SPARSE RULE EVALUATION:
+─────────────────────────
+Input: "Parent[A,B]. Ancestor[x,y] = Parent[x,y]."
+   │
+   ├──► Parser ──► IRProgram
+   │
+   ├──► TLContext.declare_relation(:Parent)
+   │
+   ├──► TLContext.add_tuple(:Parent, (A, B))
+   │
+   ├──► Engine.run! (fixpoint iteration)
+   │        │
+   │        ├──► Apply rules until convergence
+   │        │
+   │        └──► Store new tuples
+   │
+   └──► Query: relation_tuples(ctx, :Ancestor) ──► [(A, B)]
+
+
+DENSE EXPRESSION EVALUATION:
+───────────────────────────
+Input: "exists y:Person. knows(x,y)"
+   │
+   ├──► Parser ──► ExistsExpr
+   │                   │
+   │                   ├─ var: y
+   │                   ├─ domain: Person
+   │                   └─ body: Pred(:knows, [x, y])
+   │
+   ├──► Compiler Context
+   │        │
+   │        ├─ domains: {Person → 5}
+   │        └─ predicates: {knows → [Person, Person]}
+   │
+   ├──► Validator ──► Check domains, arities ──► ✓
+   │
+   ├──► eval_dense(expr, ctx; config=soft_differentiable())
+   │        │
+   │        ├──► Get input tensor for 'knows' (5×5)
+   │        │
+   │        ├──► Apply soft max over y dimension
+   │        │
+   │        └──► Return LabeledTensor (5,) for each x
+   │
+   └──► Output: Tensor of shape (5,) with differentiable values
+
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                   Integration Points                                     ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+1. COGNITIVE FRAME SELECTION
+   ────────────────────────────
+   Rules: InFrame[agent, X] * Detects[agent, Y] → ShouldTransition[...]
+          ▼
+   Echo State Reservoir updates frame weights
+          ▼
+   B-Series Ridges adapt coefficients
+          ▼
+   New cognitive frame activated
+
+
+2. ATTENTION MECHANISM
+   ────────────────────
+   Rules: Perceives[x, y] * Important[y] → Attends[x, y]
+          ▼
+   Reservoir state modulated by attention weights
+          ▼
+   Neural features amplified/suppressed
+
+
+3. MEMORY CONSOLIDATION
+   ──────────────────────
+   Rules: Experience[x, e, c] * Novel[e] → ShouldStore[x, e]
+          ▼
+   P-System membrane decides storage location
+          ▼
+   B-Series ridge encodes experience
+
+
+4. NEURO-SYMBOLIC COMPUTATION
+   ────────────────────────────
+   Neural: Reservoir produces continuous embeddings
+          ▼
+   Logic: TensorLogic applies symbolic constraints
+          ▼
+   Fusion: Differentiable combination (soft semantics)
+          ▼
+   Gradient: Backprop through entire pipeline
+
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                       Performance Profile                                ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+Component             | Latency    | Memory      | Differentiable
+─────────────────────────────────────────────────────────────────────────
+Sparse Fixpoint       | 0.1-1ms/it | O(tuples)   | No
+Dense Evaluation      | 1-10ms     | O(domain^n) | Yes (soft mode)
+Rule Parsing          | ~1ms/100   | O(rules)    | N/A
+Graph Compilation     | <1ms       | O(nodes)    | N/A
+Reservoir Update      | ~1ms       | O(neurons)  | Yes
+B-Series Evaluation   | <1ms       | O(trees)    | Yes
+Full Pipeline         | 5-20ms     | Moderate    | Yes (end-to-end)
+
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                          Legend                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+Symbols:
+  ──►  Data flow
+  ◄──► Bidirectional coupling
+  ──┬── Branching
+  └──  Connection
+
+Components:
+  [ ]  Module/System
+  { }  Set/Collection
+  ( )  Tuple/Parameters
+  ⊗    Tensor product / Integration
+```
