@@ -22,5 +22,6 @@ include("Thermal/Thermal.jl")
 include("Electrical/Electrical.jl")
 include("Magnetic/Magnetic.jl")
 include("Hydraulic/Hydraulic.jl")
+include("TensorLogic/TensorLogic.jl")
 
 end
