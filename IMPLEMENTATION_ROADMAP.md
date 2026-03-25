@@ -1,8 +1,8 @@
 # Deep Tree Echo - Implementation Roadmap & Next Steps
 
-**Last Updated**: December 8, 2025  
-**Repository**: cogpy/cogpilot.jl  
-**Status**: Phase 1 Complete, Phase 2+ In Progress
+**Last Updated**: March 25, 2026  
+**Repository**: o9nn/echo-jnn  
+**Status**: Phase 1 Complete, Phase 2 Substantially Complete, Phase 3 In Progress
 
 ## Overview
 
@@ -100,7 +100,7 @@ This document tracks the implementation roadmap for the Deep Tree Echo State Res
 
 ### 🔄 Phase 2: Evolutionary Optimization (IN PROGRESS)
 
-**Status**: 60% Complete
+**Status**: 85% Complete
 
 #### Completed ✅
 
@@ -121,12 +121,27 @@ This document tracks the implementation roadmap for the Deep Tree Echo State Res
   - Mutation (coefficient perturbation)
   - See: `src/DeepTreeEcho/OntogeneticKernel.jl`
 
-#### Pending 🔄
+- [x] **Adaptive Mutation Rates** ✅ NEW
+  - `AdaptiveMutationState` struct tracks diversity history
+  - Rate increases when diversity is low (escape local optima)
+  - Rate decreases when diversity is high (exploit solutions)
+  - Wired into `evolve_kernel_population!` via `adaptive_mutation=true`
+  - See: `src/DeepTreeEcho/KernelEvolution.jl`
 
-- [ ] **Adaptive Mutation Rates**
-  - Adjust mutation based on population diversity
-  - Increase when diversity low
-  - Decrease when approaching convergence
+- [x] **Solution Archive** ✅ NEW
+  - `SolutionArchive` struct with configurable capacity
+  - Bounded priority queue of best-ever solutions
+  - `archive_solution!` / `get_best_solutions` API
+  - Integrated into `evolve_kernel_population!` via `archive=` kwarg
+  - See: `src/DeepTreeEcho/KernelEvolution.jl`
+
+- [x] **Pareto Multi-Objective Optimisation** ✅ NEW
+  - `ParetoFront` struct for non-dominated solutions
+  - `is_dominated` / `pareto_rank` / `compute_pareto_front` API
+  - Non-dominated sorting (NSGA-II style ranking)
+  - See: `src/DeepTreeEcho/KernelEvolution.jl`
+
+#### Pending 🔄
 
 - [ ] **Coevolution Support**
   - Multiple species evolving together
@@ -137,16 +152,6 @@ This document tracks the implementation roadmap for the Deep Tree Echo State Res
   - Maintain diversity via niches
   - Prevent premature convergence
   - Fitness sharing mechanisms
-
-- [ ] **Solution Archive**
-  - Keep history of best solutions
-  - Prevent loss of good genomes
-  - Enable backtracking
-
-- [ ] **Pareto Optimization**
-  - Multi-objective Pareto front
-  - Trade-off analysis
-  - Dominated/non-dominated sorting
 
 **Priority**: Medium (system works, these are enhancements)
 
@@ -191,7 +196,7 @@ This document tracks the implementation roadmap for the Deep Tree Echo State Res
 #### Pending 🔄
 
 - [ ] **Application Examples**
-  - Lorenz system prediction
+  - ~~Lorenz system prediction~~ ✅ COMPLETED
   - Chemical reaction optimization
   - Financial time series forecasting
   - Hamiltonian system integration
@@ -341,12 +346,12 @@ This document tracks the implementation roadmap for the Deep Tree Echo State Res
 |-------|--------|----------|----------|
 | Phase 0: Foundation | ✅ Complete | 100% | High |
 | Phase 1: SciML Integration | ✅ Complete | 100% | High |
-| Phase 2: Evolutionary Optimization | 🔄 In Progress | 60% | Medium |
-| Phase 3: Domain Applications | 🔄 In Progress | 80% | Medium |
+| Phase 2: Evolutionary Optimization | 🔄 In Progress | 85% | Medium |
+| Phase 3: Domain Applications | 🔄 In Progress | 85% | Medium |
 | Phase 4: Testing & Validation | 🔄 In Progress | 70% | High |
 | Phase 5: Documentation | 🔄 In Progress | 40% | Medium |
 
-**Overall**: ~75% Complete
+**Overall**: ~82% Complete
 
 ### Test Status
 
